@@ -33,9 +33,6 @@ jobs:
       - name: Compile using Next.js
         run: pnpm next build
 
-      - name: Convert to Static HTML using Next.js
-        run: pnpm next export
-
   deploy:
     needs: build
     runs-on: ubuntu-latest
