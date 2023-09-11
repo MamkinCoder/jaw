@@ -50,11 +50,11 @@ jobs:
         with:
           path: |
             .next/cache
-          # Generate a new cache whenever packages or source files change.
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
-          # If source files changed but packages didn't, rebuild from a prior cache.
+            ~/.pnpm-store  # This caches the pnpm store, which can speed up installs
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
           restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-
+
       - name: Install dependencies
         run: pnpm install
       - name: Build with Next.js
@@ -62,7 +62,7 @@ jobs:
       - name: Static HTML export with Next.js
         run: pnpm next export
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-artifact@v2
         with:
           path: ./out
 
@@ -82,5 +82,5 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /home/y/yarikbahon/jawhealth/public_html/
+          server-dir: /jawhealth/public_html/
           local-dir: ./out/
