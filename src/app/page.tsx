@@ -1,15 +1,12 @@
 'use client'
 import classNames from 'classnames'
-import { createContext } from 'react'
 import styles from '../../styles/layout.module.css'
-import Question from '../components/QuestionComponent'
-
-export const QuestionNumberContext = createContext(0)
+import { Question } from '../components/QuestionComponent'
 
 export default function Page() {
   const containerClasses = classNames(styles['grid-header'], styles.centered)
   return (
-    <QuestionNumberContext.Provider value={0}>
+    <>
       <h1 className={containerClasses}>Анкета для выявления патологий ВНЧС</h1>
       <Question
         text={'Беспокоят ли Вас'}
@@ -102,6 +99,6 @@ export default function Page() {
         text={'Похож ли этот шум на звон, свист, треск?'}
         answers={['']}
       />
-    </QuestionNumberContext.Provider>
+    </>
   )
 }

@@ -1,16 +1,11 @@
-import React, { FC } from "react";
-
 interface QuestionTextComponentProps {
-  // Define your component's prop types here
-  text: string;
+  text: string
 }
 
-const QuestionText: FC<QuestionTextComponentProps> = ({ text }) => {
+export function QuestionText({ text }: QuestionTextComponentProps) {
   return (
     <div>
       <p>{text}</p>
     </div>
-  );
-};
-
-export default QuestionText;
+  )
+}

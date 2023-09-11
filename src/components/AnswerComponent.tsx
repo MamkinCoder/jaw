@@ -1,18 +1,18 @@
 'use client'
-import React, { ChangeEvent, FC, useRef, useState } from 'react'
+import React, { ChangeEvent, useRef, useState } from 'react'
 import style from '../../styles/answer.module.css'
 
 interface AnswerComponentProps {
   answers: string[]
 }
 
-const Answer: FC<AnswerComponentProps> = ({ answers }) => {
+export function Answer({ answers }: AnswerComponentProps) {
   const [inputValues, setInputValues] = useState<string[]>()
   const textAreaRefs = useRef<(HTMLTextAreaElement | null)[]>([])
 
   const handleChange = (
     event: ChangeEvent<HTMLTextAreaElement>,
-    index: number,
+    index: number
   ) => {
     //   const newValue = event.target.value;
     //   setInputValues((prevValues) => {
@@ -56,5 +56,3 @@ const Answer: FC<AnswerComponentProps> = ({ answers }) => {
     </div>
   )
 }
-
-export default Answer
