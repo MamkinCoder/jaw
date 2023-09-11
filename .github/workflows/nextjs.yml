@@ -74,8 +74,6 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: pages-artifact # This name should match the name used during upload, if specified.
-          path: ./out
 
       - name: Deploy to Custom Hosting via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
