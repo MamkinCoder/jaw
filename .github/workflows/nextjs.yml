@@ -73,6 +73,8 @@ jobs:
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v2
+        with:
+          path: ./out
 
       - name: Deploy to Custom Hosting via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
