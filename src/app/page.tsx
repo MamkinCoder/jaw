@@ -7,7 +7,9 @@ export default function Page() {
   const containerClasses = classNames(styles['grid-header'], styles.centered)
   return (
     <>
-      <h1 className={containerClasses}>Анкета для выявления патологий ВНЧС</h1>
+      <h1 className={containerClasses}>
+        ПАША ДУРАК Анкета для выявления патологий ВНЧС
+      </h1>
       <Question
         text={'Беспокоят ли Вас'}
         answers={[
