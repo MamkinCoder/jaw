@@ -23,7 +23,7 @@ function loadEnv($file)
         }
     }
 }
-loadEnv('.env');
+loadEnv('../.env');
 
 // Access PostgreSQL credentials using getenv()
 $dbHost = getenv('DB_HOST');
