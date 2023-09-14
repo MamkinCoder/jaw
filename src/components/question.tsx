@@ -1,35 +1,23 @@
-import { ReactNode } from 'react'
+import { ReactNode, createContext } from 'react'
 import styles from 'styles/layout.module.css'
-import { Answer, AnswerProps } from './answer'
 
-interface QuestionProps extends AnswerProps {
+interface QuestionProps {
   text: string
   questionNum: number
-  nothing?: string
   children?: ReactNode
 }
+export const QuestionNumContext = createContext<number | undefined>(undefined)
 
-export function Question({
-  text,
-  answerLabels: answers,
-  questionNum: num,
-  type,
-  nothing = '',
-  children,
-}: QuestionProps) {
+export function Question({ text, questionNum, children }: QuestionProps) {
   return (
-    <>
-      <div className={styles.divider}></div>
-      <div>
-        <label htmlFor={''}>{`${num}: ${text}`}</label>
-      </div>
-      <Answer
-        answerLabels={answers}
-        type={type}
-        nothing={nothing}
-        questionNum={num}
-      />
-      {children}
-    </>
+    <QuestionNumContext.Provider value={questionNum}>
+      <>
+        <div className={styles.divider}></div>
+        <div>
+          <label htmlFor={''}>{`${questionNum}: ${text}`}</label>
+        </div>
+        {children}
+      </>
+    </QuestionNumContext.Provider>
   )
 }
