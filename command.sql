@@ -1,27 +1,26 @@
-CREATE TABLE person (
-    person_id SERIAL PRIMARY KEY,
+CREATE TABLE entry (
+    entry_id SERIAL PRIMARY KEY,
     name VARCHAR(60),
     age SMALLINT NOT NULL,
     gender BOOLEAN NOT NULL,
-    email VARCHAR(100),
-    q1 SMALLINT[] ,
-    q2 SMALLINT,
-    q3 SMALLINT[] NOT NULL,
-    q4 SMALLINT[] NOT NULL,
-    q5 SMALLINT NOT NULL,
-    q6 SMALLINT NOT NULL,
-    q7 SMALLINT NOT NULL,
-    q8 SMALLINT,
-    q9 SMALLINT[] NOT NULL,
-    q10 SMALLINT[] NOT NULL,
+    q1 BOOLEAN[],
+    q2 VARCHAR(200),
+    q3 BOOLEAN[] NOT NULL,
+    q4 BOOLEAN[] NOT NULL,
+    q5 BOOLEAN[] NOT NULL,
+    q6 BOOLEAN[] NOT NULL,
+    q7 BOOLEAN[] NOT NULL,
+    q8 BOOLEAN[] NOT NULL,
+    q9 BOOLEAN[] NOT NULL,
+    q10 BOOLEAN[] NOT NULL,
     q11 VARCHAR(200),
-    q12 SMALLINT[] NOT NULL,
-    q13 VARCHAR(200)
+    q12 BOOLEAN[] NOT NULL,
+    q13 BOOLEAN[] NOT NULL
 );
 
 -- Adding comments to the columns
 COMMENT ON COLUMN person.name IS 'ФИО';
-COMMENT ON COLUMN person.q1 IS 'Беспокоят ли Вас: 1. Головные боли 2. Боли в шее 3. Дискомфорт/боли в плечах и лопатках';
+COMMENT ON COLUMN person.q1 IS 'Беспокоят ли Вас: 1. Головные боли 2. Боли в шее 3. Дискомфорт/боли в плечах и лопатках 4. Не беспокоят';
 COMMENT ON COLUMN person.q2 IS 'Какое давление вы считаете для себя нормой';
 COMMENT ON COLUMN person.q3 IS 'Беспокоят ли Вас боли в челюстях? 1. В покое 2. Во время приема пищи 3. После приема пищи 4. Не беспокоит';
 COMMENT ON COLUMN person.q4 IS 'Ощущаете ли Вы щёлкание, трение, боль при жевании в ВНЧС? 1. Да, ощущаю щёлкание 2. Да, ощущаю трение 3. Да, ощущаю боль 4. Нет, не ощущаю';
@@ -35,4 +34,4 @@ COMMENT ON COLUMN person.q11 IS 'Имеются ли у Вас заболева�
 COMMENT ON COLUMN person.q12 IS 'Случается ли у Вас головокружение, чувство заложенности в ушах, звон в одном или обоих ушах? 1. Да, кружится голова 2. Да, закладывает уши 3. Да, слышу звон в одном (или обоих) ушах 4. Нет, не случается';
 COMMENT ON COLUMN person.q13 IS 'Похож ли этот шум на звон, свист, треск?';
 
-CREATE INDEX idx_person_last_name ON person (last_name);
+CREATE INDEX idx_person_last_name ON person ();

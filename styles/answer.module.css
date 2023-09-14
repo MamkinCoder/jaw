@@ -25,3 +25,11 @@
 .form-input:focus {
   border-color: #007bff;
 }
+
+.form-list {
+  border-color: #007bff;
+}
+
+.form-text {
+  height: 50px;
+}
