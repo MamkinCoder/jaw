@@ -5,13 +5,16 @@ import { Switch } from '@headlessui/react'
 import { Fragment, useCallback, useContext, useState } from 'react'
 import styles from 'styles/answer.module.css'
 import { QuestionNumContext } from '../question'
-import { CommonAnswersProps } from './commonAnswersProps'
 
-interface ListAnswerProps extends CommonAnswersProps {
+interface ListAnswerProps {
   nothing: string
+  labels: string[]
+  onChange: (value: boolean[]) => void
+  onBlur: () => void
+  value: boolean[]
 }
 
-export function ListAnswer({ labels, nothing }: ListAnswerProps) {
+export function ListAnswer({ labels, nothing, onChange }: ListAnswerProps) {
   const initialOptions = new Array(labels.length).fill(false)
 
   const [selectedOptions, setSelectedOptions] = useState<boolean[]>(initialOptions)
@@ -28,8 +31,9 @@ export function ListAnswer({ labels, nothing }: ListAnswerProps) {
       change[index] = value
       setSelectedOptions(change)
       console.log(change)
+      onChange(change)
     },
-    [selectedOptions],
+    [onChange, selectedOptions],
   )
   const handleNothing = useCallback(
     (value: boolean) => {
@@ -37,8 +41,9 @@ export function ListAnswer({ labels, nothing }: ListAnswerProps) {
         setSelectedOptions(initialOptions)
       }
       setNothingState(value)
+      onChange(initialOptions)
     },
-    [initialOptions],
+    [onChange, initialOptions],
   )
 
   return (

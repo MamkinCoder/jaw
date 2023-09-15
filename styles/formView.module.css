@@ -7,6 +7,11 @@
 .grid-header {
   grid-column: span 2;
 }
+.divider {
+  grid-column: 1 / -1; /* Spans from the first to the last column */
+  height: 2px; /* Set height as desired */
+  background-color: #000; /* Set color as desired */
+}
 
 @media (max-width: 500px) {
   .grid-container {
@@ -19,3 +24,6 @@
     justify-self: normal;
   }
 }
+/* .centered {
+  text-align: center;
+} */

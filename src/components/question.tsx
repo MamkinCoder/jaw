@@ -1,5 +1,4 @@
 import { ReactNode, createContext } from 'react'
-import styles from 'styles/layout.module.css'
 
 interface QuestionProps {
   text: string
@@ -12,10 +11,8 @@ export function Question({ text, questionNum, children }: QuestionProps) {
   return (
     <QuestionNumContext.Provider value={questionNum}>
       <>
-        <div className={styles.divider}></div>
-        <div>
-          <label htmlFor={''}>{`${questionNum}: ${text}`}</label>
-        </div>
+        <div className="divider"></div>
+        <label htmlFor={`input-${questionNum}-1`}>{`${questionNum}: ${text}`}</label>
         {children}
       </>
     </QuestionNumContext.Provider>

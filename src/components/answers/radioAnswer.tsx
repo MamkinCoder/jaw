@@ -5,9 +5,10 @@ import { RadioGroup } from '@headlessui/react'
 import { useContext, useState } from 'react'
 import styles from 'styles/answer.module.css'
 import { QuestionNumContext } from '../question'
-import { CommonAnswersProps } from './commonAnswersProps'
 
-interface RadioAnswerProps extends CommonAnswersProps {}
+interface RadioAnswerProps {
+  labels: string[]
+}
 
 export function RadioAnswer({ labels }: RadioAnswerProps) {
   const [selectedOption, setSelectedOption] = useState(null)
