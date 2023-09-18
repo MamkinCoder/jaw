@@ -10,14 +10,12 @@ interface ListAnswerProps {
   nothing: string
   labels: string[]
   onChange: (value: boolean[]) => void
-  onBlur: () => void
-  value: boolean[]
+  values: boolean[]
 }
 
-export function ListAnswer({ labels, nothing, onChange }: ListAnswerProps) {
+export function ListAnswer({ labels, nothing, onChange, values }: ListAnswerProps) {
   const initialOptions = new Array(labels.length).fill(false)
 
-  const [selectedOptions, setSelectedOptions] = useState<boolean[]>(initialOptions)
   const [nothingState, setNothingState] = useState(false)
 
   let questionNum = useContext(QuestionNumContext)
@@ -25,20 +23,18 @@ export function ListAnswer({ labels, nothing, onChange }: ListAnswerProps) {
   questionNum = questionNum === undefined ? 0 : questionNum
 
   const handleChange = useCallback(
-    (index: number, value: boolean) => {
+    (index: number, newValue: boolean) => {
       setNothingState(false)
-      const change = [...selectedOptions]
-      change[index] = value
-      setSelectedOptions(change)
-      console.log(change)
+      const change = [...values]
+      change[index] = newValue
       onChange(change)
     },
-    [onChange, selectedOptions],
+    [onChange, values],
   )
   const handleNothing = useCallback(
     (value: boolean) => {
       if (value) {
-        setSelectedOptions(initialOptions)
+        onChange(initialOptions)
       }
       setNothingState(value)
       onChange(initialOptions)
@@ -50,7 +46,7 @@ export function ListAnswer({ labels, nothing, onChange }: ListAnswerProps) {
     <div className={styles['form-container']}>
       {labels.map((value, index) => (
         <Switch
-          checked={selectedOptions[index]}
+          checked={values?.[index] || false}
           onChange={(value) => handleChange(index, value)}
           key={`list-${questionNum}-${index}`}
           as={Fragment}

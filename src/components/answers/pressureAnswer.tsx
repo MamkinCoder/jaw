@@ -1,26 +1,46 @@
-import { useContext } from 'react'
+import { debounce } from 'lodash'
+import { ChangeEvent, useContext } from 'react'
 import styles from 'styles/answer.module.css'
 import { QuestionNumContext } from '../question'
 
-interface PressureAnswerProps {}
+interface PressureAnswerProps {
+  onChange: (value: string) => void
+  value: string
+}
 
-export function PressureAnswer({}: PressureAnswerProps) {
+export function PressureAnswer({ onChange, value }: PressureAnswerProps) {
   let questionNum = useContext(QuestionNumContext)
+
+  const debouncedCLOG = debounce((e) => console.log(e), 300)
+
+  function handleLeft(event: ChangeEvent<HTMLInputElement>) {
+    let newStr = event.target.value
+    let result = value.replace(/.*\\/, newStr + '\\')
+    onChange(result)
+  }
+
+  function handleRight(event: ChangeEvent<HTMLInputElement>) {
+    let newStr = event.target.value
+    let result = value.replace(/\\.*/, '\\' + newStr)
+    onChange(result)
+  }
 
   return (
     <div>
-      <textarea
+      <input
         className={styles['form-input']}
         id={`input-${questionNum}-1`}
         placeholder="110"
-        rows={1}
+        onChange={handleLeft}
+        maxLength={3}
       />
       \
-      <textarea
+      <input
         className={styles['form-input']}
         id={`input-${questionNum}-2`}
         placeholder="70"
-        rows={1}
+        onChange={handleRight}
+        maxLength={3}
       />
     </div>
   )
