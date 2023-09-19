@@ -5,15 +5,46 @@ function serializeForPostgreSQL($array) {
     }, $array)) . '}';
 }
 
+function loadEnv($file)
+{
+    if (!file_exists($file)) {
+        throw new Exception("'$file' not found.");
+    }
+
+    $content = file_get_contents($file);
+    $lines = explode("\n", $content);
+
+    foreach ($lines as $line) {
+        $line = trim($line);
+        if (empty($line) || strpos($line, '#') === 0) {
+            continue; // Skip empty lines and comments (lines starting with #)
+        }
+
+        list($key, $value) = explode('=', $line, 2);
+        $key = trim($key);
+        $value = trim($value);
+
+        if (!empty($key)) {
+            putenv("$key=$value");
+        }
+    }
+}
+
+loadEnv('../.env');
+
+$dbHost = getenv('DB_HOST');
+$dbPort = getenv('DB_PORT');
+$dbName = getenv('DB_NAME');
+$dbUser = getenv('DB_USER');
+$dbPassword = getenv('DB_PASSWORD');
+
 try {
     // ... [Your PDO connection and data fetching logic]
-    $pdo = new PDO("pgsql:host=your_database_host;port=your_database_port;dbname=your_database_name", "your_database_user", "your_database_password");
+    $pdo = new PDO("pgsql:host=$dbHost;port=$dbPort;dbname=$dbName", $dbUser, $dbPassword);
 
     $data = json_decode(file_get_contents('php://input'), true);
-    $name = $data['name'];
     $age = $data['age'];
     $gender = $data['gender'];
-    $email = $data['email'];
     $q1 = $data['q1'];
     $q2 = $data['q2'];
     $q3 = $data['q3'];
@@ -42,14 +73,12 @@ try {
     $q13 = serializeForPostgreSQL($data['q13']);
 
     // ... [Your PDO prepare statement logic]
-    $stmt = $pdo->prepare('INSERT INTO person (name, age, gender, email, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13)
-                           VALUES (:name, :age, :gender, :email, :q1, :q2, :q3, :q4, :q5, :q6, :q7, :q8, :q9, :q10, :q11, :q12, :q13)');
+    $stmt = $pdo->prepare('INSERT INTO entry (age, gender, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13)
+                           VALUES (:age, :gender, :q1, :q2, :q3, :q4, :q5, :q6, :q7, :q8, :q9, :q10, :q11, :q12, :q13)');
 
     // Bind parameters
-    $stmt->bindParam(':name', $name, PDO::PARAM_STR);
     $stmt->bindParam(':age', $age, PDO::PARAM_INT);
     $stmt->bindParam(':gender', $gender, PDO::PARAM_BOOL);
-    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
     $stmt->bindParam(':q1', $q1, PDO::PARAM_STR);
     $stmt->bindParam(':q2', $q2, PDO::PARAM_STR);  // Assuming q2 is a string based on your example
     $stmt->bindParam(':q3', $q3, PDO::PARAM_STR);

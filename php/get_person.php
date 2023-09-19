@@ -39,7 +39,7 @@ try {
     $pdo = new PDO("pgsql:host=$dbHost;port=$dbPort;dbname=$dbName", $dbUser, $dbPassword);
 
     // Prepare and execute the SELECT query
-    $stmt = $pdo->prepare('SELECT * FROM "public"."person";');
+    $stmt = $pdo->prepare('SELECT * FROM "public"."entry";');
     $stmt->execute();
 
     // Fetch and echo the raw result
