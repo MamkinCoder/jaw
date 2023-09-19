@@ -1,5 +1,4 @@
 import { ListAnswer } from '@/components/answers/listAnswer'
-import { PressureAnswer } from '@/components/answers/pressureAnswer'
 import { RadioAnswer } from '@/components/answers/radioAnswer'
 import { Question } from '@/components/question'
 import { useFormKeysRefs } from '@/hooks/useFormKeysRefs'
@@ -14,7 +13,7 @@ interface FormViewProps {}
 
 export function FormView({}: FormViewProps) {
   const containerClasses = classNames(styles['grid-header'], styles.centered)
-  let num = 1
+  let num = 0
   const refs = useFormKeysRefs(Object.keys(defaultValues))
 
   const {
@@ -52,109 +51,74 @@ export function FormView({}: FormViewProps) {
             {...(register('age'), { required: true })}
           />
         </div>
-      </label> */}
+      </label>
       <Controller
         control={control}
         name="gender"
         rules={{
           validate: (value) => !isEqual(value, defaultValues.gender) || 'Укажите пол',
         }}
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { onChange, value }, fieldState: { error } }) => (
           <label ref={refs.gender}>
             Ваш пол
             <RadioAnswer onChange={onChange} values={value} labels={['Мужчина', 'Женщина']} />
-            {errors.gender && <p>{errors.gender.message}</p>}
+            {error && <p>{error.message}</p>}
           </label>
         )}
       />
-      {num++ && false}
-      {/* <Question ref={refs['q' + num]} text={'Беспокоят ли Вас'} questionNum={num}>
+      {++num && false}
+      <Question ref={refs['q' + num]} text={'Беспокоят ли Вас'} questionNum={num}>
+        <ListAnswer
+          control={control}
+          labels={['Головные боли', 'Боли в шее', 'Дискомфорт/боли в плечах и лопатках']}
+          nothing={'Ничего из вышеперечисленного'}
+        />
+      </Question>
+      {++num && false}
+      <Question
+        ref={refs['q' + num]}
+        text={'Какое давление вы считаете для себя нормой'}
+        questionNum={num}
+      >
         <Controller
           control={control}
           name={'q' + num}
           rules={{
-            validate: (value) => !isEqual(value, defaultValues['q' + num]) || 'Ответьте на вопрос',
-          }}
-          render={({ field: { onChange, value } }) => (
-            <>
-              <ListAnswer
-                onChange={onChange}
-                values={value as boolean[]}
-                labels={['Головные боли', 'Боли в шее', 'Дискомфорт/боли в плечах и лопатках']}
-                nothing={'Ничего из вышеперечисленного'}
-              />
-              {errors['q' + num]?.message && <p>{errors['q' + num].message}</p>}
-            </>
-          )}
-        />
-      </Question> */}
-      <Question
-        ref={refs.q2}
-        text={'Какое давление вы считаете для себя нормой'}
-        questionNum={num++}
-      >
-        <Controller
-          control={control}
-          name="q2"
-          rules={{
             validate: (value) => !isEqual(value, defaultValues.q2) || 'Укажите давление',
           }}
-          render={({ field: { onChange, value } }) => (
+          render={({ field: { onChange, value }, fieldState: { error } }) => (
             <>
               <PressureAnswer onChange={onChange} value={value} />
-              {errors.q2 && <p>{errors.q2.message}</p>}
+              {error && <p>{error.message}</p>}
             </>
           )}
         />
       </Question>
-      <Question ref={refs.q3} text={'Беспокоят ли Вас боли в челюстях?'} questionNum={num++}>
-        <Controller
+      {++num && false}
+      <Question ref={refs['q' + num]} text={'Беспокоят ли Вас боли в челюстях?'} questionNum={num}>
+        <ListAnswer
           control={control}
-          name="q3"
-          rules={{
-            validate: (value) => !isEqual(value, defaultValues.q3) || 'Ответьте на вопрос',
-          }}
-          render={({ field: { onChange, value } }) => (
-            <>
-              <ListAnswer
-                onChange={onChange}
-                values={value}
-                labels={['В покое', 'Во время приема пищи', 'После приема пищи']}
-                nothing={'Не беспокоит'}
-              />
-              {errors.q3 && <p>{errors.q3.message}</p>}
-            </>
-          )}
+          labels={['В покое', 'Во время приема пищи', 'После приема пищи']}
+          nothing={'Не беспокоит'}
         />
-      </Question>
+      </Question> */}
+      {++num && false}
       <Question
-        ref={refs.q4}
+        ref={refs['q' + num]}
         text={'Ощущаете ли Вы щёлкание, трение, боль при жевании в ВНЧС?'}
-        questionNum={num++}
+        questionNum={num}
       >
-        <Controller
+        <ListAnswer
           control={control}
-          name="q4"
-          rules={{
-            validate: (value) => !isEqual(value, defaultValues.q4) || 'Ответьте на вопрос',
-          }}
-          render={({ field: { onChange, value } }) => (
-            <>
-              <ListAnswer
-                onChange={onChange}
-                values={value}
-                labels={['Да, ощущаю щёлкание', 'Да, ощущаю трение', 'Да, ощущаю боль']}
-                nothing={'Нет, не ощущаю'}
-              />
-              {errors.q4 && <p>{errors.q4.message}</p>}
-            </>
-          )}
+          labels={['Да, ощущаю щёлкание', 'Да, ощущаю трение', 'Да, ощущаю боль']}
+          nothing={'Нет, не ощущаю'}
         />
       </Question>
+      {++num && false}
       <Question
-        ref={refs.q5}
+        ref={refs['q' + num]}
         text={'Испытываете ли Вы напряженность, затруднение при открывании рта?'}
-        questionNum={num++}
+        questionNum={num}
       >
         <Controller
           control={control}
@@ -174,7 +138,7 @@ export function FormView({}: FormViewProps) {
           )}
         />
       </Question>
-      <Question
+      {/* <Question
         ref={refs.q6}
         text={
           'Бывает ли у Вас стискивание и скрип зубами в ночное время или в моменты повышенной концентрации/стресса?'
@@ -340,7 +304,7 @@ export function FormView({}: FormViewProps) {
             />
           )}
         />
-      </Question>
+      </Question> */}
       <input type="submit" />
     </form>
   )

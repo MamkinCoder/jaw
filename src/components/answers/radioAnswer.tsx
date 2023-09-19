@@ -5,7 +5,7 @@ import { RadioGroup } from '@headlessui/react'
 import { isEqual } from 'lodash'
 import { useContext } from 'react'
 import styles from 'styles/answer.module.css'
-import { QuestionNumContext } from '../question'
+import { QuestionNameContext } from '../question'
 
 interface RadioAnswerProps {
   labels: string[]
@@ -24,9 +24,9 @@ function compareArrays(a: boolean[], b: boolean[]) {
 }
 
 export function RadioAnswer({ labels, onChange, values }: RadioAnswerProps) {
-  let questionNum = useContext(QuestionNumContext)
+  let questionName = useContext(QuestionNameContext)
 
-  questionNum = questionNum === undefined ? 0 : questionNum
+  // questionNum = questionNum === undefined ? 0 : questionNum
 
   return (
     <RadioGroup
@@ -40,8 +40,8 @@ export function RadioAnswer({ labels, onChange, values }: RadioAnswerProps) {
         {labels.map((value, index) => {
           return (
             <RadioGroup.Option
-              key={`radio-${questionNum}-${index}`}
-              id={`radio-${questionNum}-${index}`}
+              key={`radio-${questionName}-${index}`}
+              id={`radio-${questionName}-${index}`}
               value={createArray(labels.length, index)}
             >
               {({ checked }) => (
@@ -51,7 +51,7 @@ export function RadioAnswer({ labels, onChange, values }: RadioAnswerProps) {
                   ) : (
                     <FontAwesomeIcon icon={faCircle} />
                   )}
-                  <RadioGroup.Label id={`radio-${questionNum}-${index}`}>{value}</RadioGroup.Label>
+                  <RadioGroup.Label id={`radio-${questionName}-${index}`}>{value}</RadioGroup.Label>
                 </div>
               )}
             </RadioGroup.Option>

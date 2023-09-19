@@ -1,7 +1,7 @@
 import { debounce } from 'lodash'
 import { ChangeEvent, useContext } from 'react'
 import styles from 'styles/answer.module.css'
-import { QuestionNumContext } from '../question'
+import { QuestionNameContext } from '../question'
 
 interface PressureAnswerProps {
   onChange: (value: string) => void
@@ -9,7 +9,7 @@ interface PressureAnswerProps {
 }
 
 export function PressureAnswer({ onChange, value }: PressureAnswerProps) {
-  let questionNum = useContext(QuestionNumContext)
+  let questionName = useContext(QuestionNameContext)
 
   const debouncedCLOG = debounce((e) => console.log(e), 300)
 
@@ -29,7 +29,7 @@ export function PressureAnswer({ onChange, value }: PressureAnswerProps) {
     <div>
       <input
         className={styles['form-input']}
-        id={`input-${questionNum}-1`}
+        id={`input-${questionName}-1`}
         placeholder="110"
         onChange={handleLeft}
         maxLength={3}
@@ -37,7 +37,7 @@ export function PressureAnswer({ onChange, value }: PressureAnswerProps) {
       \
       <input
         className={styles['form-input']}
-        id={`input-${questionNum}-2`}
+        id={`input-${questionName}-2`}
         placeholder="70"
         onChange={handleRight}
         maxLength={3}
