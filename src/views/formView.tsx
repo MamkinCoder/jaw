@@ -1,11 +1,12 @@
+import { GenderAnswer } from '@/components/answers/genderAnswer'
 import { ListAnswer } from '@/components/answers/listAnswer'
+import { PressureAnswer } from '@/components/answers/pressureAnswer'
 import { RadioAnswer } from '@/components/answers/radioAnswer'
 import { Question } from '@/components/question'
 import { useFormKeysRefs } from '@/hooks/useFormKeysRefs'
 import classNames from 'classnames'
-import { isEqual } from 'lodash'
 import { useEffect } from 'react'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import styles from 'styles/layout.module.css'
 import { defaultValues, entryData } from './formData'
 
@@ -13,7 +14,6 @@ interface FormViewProps {}
 
 export function FormView({}: FormViewProps) {
   const containerClasses = classNames(styles['grid-header'], styles.centered)
-  let num = 0
   const refs = useFormKeysRefs(Object.keys(defaultValues))
 
   const {
@@ -21,14 +21,16 @@ export function FormView({}: FormViewProps) {
     handleSubmit,
     formState: { errors },
     control,
+    clearErrors,
   } = useForm<entryData>({ defaultValues })
 
-  const onSubmit: SubmitHandler<entryData> = (data) => console.log(data)
+  const onSubmit: SubmitHandler<entryData> = (data) => {
+    console.log(data)
+  }
 
   useEffect(() => {
-    Object.keys(defaultValues).forEach((key: string) => {
-      const entryDataKey = key as keyof entryData
-      if (errors[entryDataKey]) {
+    Object.keys(defaultValues).forEach((key: keyof entryData) => {
+      if (errors[key]) {
         refs[key].current?.scrollIntoView({
           behavior: 'smooth',
           block: 'center',
@@ -41,270 +43,189 @@ export function FormView({}: FormViewProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles['grid-container']}>
       <h1 className={containerClasses}>Анкета для выявления патологий ВНЧС</h1>
-      {/* <label>
+      <label>
         Ваш возраст
         <div>
           <input
             className={styles['form-input']}
             placeholder="25"
             maxLength={3}
-            {...(register('age'), { required: true })}
+            type="number"
+            {...register('age', {
+              required: 'Укажите Ваш возраст',
+              valueAsNumber: true,
+              min: { value: 0, message: 'Сколько-сколько вам лет?' },
+              max: { value: 100, message: 'Не врите' },
+            })}
           />
+          {errors.age && <p>{errors.age.message}</p>}
         </div>
       </label>
-      <Controller
-        control={control}
-        name="gender"
-        rules={{
-          validate: (value) => !isEqual(value, defaultValues.gender) || 'Укажите пол',
-        }}
-        render={({ field: { onChange, value }, fieldState: { error } }) => (
-          <label ref={refs.gender}>
-            Ваш пол
-            <RadioAnswer onChange={onChange} values={value} labels={['Мужчина', 'Женщина']} />
-            {error && <p>{error.message}</p>}
-          </label>
+
+      <label ref={refs.gender}>
+        Ваш пол
+        <GenderAnswer name="gender" control={control} />
+      </label>
+
+      <Question ref={refs.q1} text={'Беспокоят ли Вас'} questionNum={1}>
+        {(name) => (
+          <ListAnswer
+            name={name}
+            control={control}
+            labels={['Головные боли', 'Боли в шее', 'Дискомфорт/боли в плечах и лопатках']}
+            nothing={'Ничего из вышеперечисленного'}
+          />
         )}
-      />
-      {++num && false}
-      <Question ref={refs['q' + num]} text={'Беспокоят ли Вас'} questionNum={num}>
-        <ListAnswer
-          control={control}
-          labels={['Головные боли', 'Боли в шее', 'Дискомфорт/боли в плечах и лопатках']}
-          nothing={'Ничего из вышеперечисленного'}
-        />
       </Question>
-      {++num && false}
-      <Question
-        ref={refs['q' + num]}
-        text={'Какое давление вы считаете для себя нормой'}
-        questionNum={num}
-      >
-        <Controller
-          control={control}
-          name={'q' + num}
-          rules={{
-            validate: (value) => !isEqual(value, defaultValues.q2) || 'Укажите давление',
-          }}
-          render={({ field: { onChange, value }, fieldState: { error } }) => (
-            <>
-              <PressureAnswer onChange={onChange} value={value} />
-              {error && <p>{error.message}</p>}
-            </>
-          )}
-        />
+      <Question ref={refs.q2} text={'Какое давление вы считаете для себя нормой'} questionNum={2}>
+        {(name) => <PressureAnswer control={control} name={name} />}
       </Question>
-      {++num && false}
-      <Question ref={refs['q' + num]} text={'Беспокоят ли Вас боли в челюстях?'} questionNum={num}>
-        <ListAnswer
-          control={control}
-          labels={['В покое', 'Во время приема пищи', 'После приема пищи']}
-          nothing={'Не беспокоит'}
-        />
-      </Question> */}
-      {++num && false}
+      <Question ref={refs.q3} text={'Беспокоят ли Вас боли в челюстях?'} questionNum={3}>
+        {(name) => (
+          <ListAnswer
+            name={name}
+            control={control}
+            labels={['В покое', 'Во время приема пищи', 'После приема пищи']}
+            nothing={'Не беспокоит'}
+          />
+        )}
+      </Question>
       <Question
-        ref={refs['q' + num]}
+        ref={refs.q4}
         text={'Ощущаете ли Вы щёлкание, трение, боль при жевании в ВНЧС?'}
-        questionNum={num}
+        questionNum={4}
       >
-        <ListAnswer
-          control={control}
-          labels={['Да, ощущаю щёлкание', 'Да, ощущаю трение', 'Да, ощущаю боль']}
-          nothing={'Нет, не ощущаю'}
-        />
+        {(name) => (
+          <ListAnswer
+            name={name}
+            control={control}
+            labels={['Да, ощущаю щёлкание', 'Да, ощущаю трение', 'Да, ощущаю боль']}
+            nothing={'Нет, не ощущаю'}
+          />
+        )}
       </Question>
-      {++num && false}
       <Question
-        ref={refs['q' + num]}
+        ref={refs.q5}
         text={'Испытываете ли Вы напряженность, затруднение при открывании рта?'}
-        questionNum={num}
+        questionNum={5}
       >
-        <Controller
-          control={control}
-          name="q5"
-          rules={{
-            validate: (value) => !isEqual(value, defaultValues.q5) || 'Ответьте на вопрос',
-          }}
-          render={({ field: { onChange, value } }) => (
-            <>
-              <RadioAnswer
-                onChange={onChange}
-                values={value}
-                labels={['Да, часто', 'Да, редко', 'Нет']}
-              />
-              {errors.q5 && <p>{errors.q5.message}</p>}
-            </>
-          )}
-        />
+        {(name) => (
+          <RadioAnswer name={name} control={control} labels={['Да, часто', 'Да, редко', 'Нет']} />
+        )}
       </Question>
-      {/* <Question
+      <Question
         ref={refs.q6}
         text={
           'Бывает ли у Вас стискивание и скрип зубами в ночное время или в моменты повышенной концентрации/стресса?'
         }
-        questionNum={num++}
+        questionNum={6}
       >
-        <Controller
-          control={control}
-          name="q6"
-          rules={{
-            validate: (value) => !isEqual(value, defaultValues.q6) || 'Ответьте на вопрос',
-          }}
-          render={({ field: { onChange, value } }) => (
-            <>
-              <RadioAnswer
-                labels={['Да, часто', 'Да, редко', 'Нет']}
-                onChange={onChange}
-                values={value}
-              />
-              {errors.q6 && <p>{errors.q6.message}</p>}
-            </>
-          )}
-        />
+        {(name) => (
+          <RadioAnswer labels={['Да, часто', 'Да, редко', 'Нет']} name={name} control={control} />
+        )}
       </Question>
       <Question
         ref={refs.q7}
         text={'Возникают ли у Вас болевые ощущения при смещении нижней челюсти вперед, в стороны?'}
-        questionNum={num++}
+        questionNum={7}
       >
-        <Controller
-          control={control}
-          name="q7"
-          rules={{ required: true }}
-          render={({ field: { onChange, value } }) => (
-            <RadioAnswer
-              labels={['Да, часто', 'Да, редко', 'Нет']}
-              onChange={onChange}
-              values={value}
-            />
-          )}
-        />
+        {(name) => (
+          <RadioAnswer labels={['Да, часто', 'Да, редко', 'Нет']} name={name} control={control} />
+        )}
       </Question>
       <Question
         ref={refs.q8}
         text={'Имеют ли ваши зубы повышенную чувствительность?'}
-        questionNum={num++}
+        questionNum={8}
       >
-        <Controller
-          control={control}
-          name="q8"
-          rules={{ required: true }}
-          render={({ field: { onChange, value } }) => (
-            <RadioAnswer
-              labels={['Да, имеют', 'Нет, не имеют']}
-              onChange={onChange}
-              values={value}
-            />
-          )}
-        />
+        {(name) => (
+          <RadioAnswer labels={['Да, имеют', 'Нет, не имеют']} name={name} control={control} />
+        )}
       </Question>
       <Question
         ref={refs.q9}
         text={'Бывает ли у вас тревожность, раздражительность, нарушение сна?'}
-        questionNum={num++}
+        questionNum={9}
       >
-        <Controller
-          control={control}
-          name="q9"
-          rules={{ required: true }}
-          render={({ field: { onChange, value } }) => (
-            <ListAnswer
-              labels={[
-                'Да, бывает тревожность',
-                'Да, бывает раздражительность',
-                'Да, бывает нарушение сна',
-              ]}
-              nothing={'Нет, не бывает'}
-              onChange={onChange}
-              values={value}
-            />
-          )}
-        />
+        {(name) => (
+          <ListAnswer
+            labels={[
+              'Да, бывает тревожность',
+              'Да, бывает раздражительность',
+              'Да, бывает нарушение сна',
+            ]}
+            nothing={'Нет, не бывает'}
+            control={control}
+            name={name}
+          />
+        )}
       </Question>
       <Question
         ref={refs.q10}
         text={
           'Посещали ли Вы невролога, психолога, психиатра, по поводу неясных болей в области головы, лица, шеи.'
         }
-        questionNum={num++}
+        questionNum={10}
       >
-        <Controller
-          control={control}
-          name="q10"
-          rules={{ required: true }}
-          render={({ field: { onChange, value } }) => (
-            <ListAnswer
-              labels={[
-                'Да, посещал(а) невролога ',
-                'Да, посещал(а) психолога',
-                'Да, посещал(а) психиатра',
-              ]}
-              nothing={'Нет, не посещал(а)'}
-              onChange={onChange}
-              values={value}
-            />
-          )}
-        />
+        {(name) => (
+          <ListAnswer
+            labels={[
+              'Да, посещал(а) невролога ',
+              'Да, посещал(а) психолога',
+              'Да, посещал(а) психиатра',
+            ]}
+            nothing={'Нет, не посещал(а)'}
+            control={control}
+            name={name}
+          />
+        )}
       </Question>
       <Question
         ref={refs.q11}
         text={
           'Имеются ли у Вас заболевания ЛОР органов? (Ухо, горло, нос). Если да, укажите какие.'
         }
-        questionNum={num++}
+        questionNum={11}
       >
-        <input
-          className={styles['form-input']}
-          id="input-11-1"
-          placeholder={'синусит, гайморит'}
-          {...register('q11')}
-        />
+        {(name) => (
+          <input
+            className={styles['form-input']}
+            id="input-11-1"
+            placeholder={'синусит, гайморит'}
+            {...register(name)}
+          />
+        )}
       </Question>
       <Question
         ref={refs.q12}
         text={
           'Случается ли у Вас головокружение, чувство заложенности в ушах, звон в одном или обоих ушах?'
         }
-        questionNum={num++}
+        questionNum={12}
       >
-        <Controller
-          control={control}
-          name="q12"
-          rules={{ required: true }}
-          render={({ field: { onChange, value } }) => (
-            <ListAnswer
-              labels={[
-                'Да, кружится голова',
-                'Да, закладывает уши',
-                'Да, слышу звон в одном (или обоих) ушах',
-              ]}
-              nothing={'Нет, не случается'}
-              onChange={onChange}
-              values={value}
-            />
-          )}
-        />
+        {(name) => (
+          <ListAnswer
+            labels={[
+              'Да, кружится голова',
+              'Да, закладывает уши',
+              'Да, слышу звон в одном (или обоих) ушах',
+            ]}
+            nothing={'Нет, не случается'}
+            name={name}
+            control={control}
+          />
+        )}
       </Question>
-      <Question
-        ref={refs.q13}
-        text={'Похож ли этот шум на звон, свист, треск?'}
-        questionNum={num++}
-      >
-        <Controller
-          control={control}
-          name="q13"
-          rules={{ required: true }}
-          render={({ field: { onChange, value } }) => (
-            <ListAnswer
-              labels={['Похож на звон', 'Похож на свист', 'Похож на треск']}
-              nothing="Нет шума"
-              onChange={onChange}
-              values={value}
-            />
-          )}
-        />
-      </Question> */}
+      <Question ref={refs.q13} text={'Похож ли этот шум на звон, свист, треск?'} questionNum={13}>
+        {(name) => (
+          <ListAnswer
+            labels={['Похож на звон', 'Похож на свист', 'Похож на треск']}
+            nothing="Нет шума"
+            name={name}
+            control={control}
+          />
+        )}
+      </Question>
       <input type="submit" />
     </form>
   )

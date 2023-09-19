@@ -1,24 +1,23 @@
-import { ReactNode, createContext, forwardRef } from 'react'
+import { entryData } from '@/views/formData'
+import { forwardRef } from 'react'
+import { FieldPath } from 'react-hook-form'
 
 interface QuestionProps {
   text: string
   questionNum: number
-  children: ReactNode
+  children: (name: FieldPath<entryData>) => React.ReactElement
 }
-export const QuestionNameContext = createContext<string>('')
 
 export const Question = forwardRef<HTMLLabelElement, QuestionProps>(
   ({ text, questionNum, children }, ref) => {
     const qName = 'q' + questionNum
 
     return (
-      <QuestionNameContext.Provider value={qName}>
-        <>
-          <div className="divider"></div>
-          <label ref={ref} htmlFor={`input-${questionNum}-1`}>{`${questionNum}: ${text}`}</label>
-          {children}
-        </>
-      </QuestionNameContext.Provider>
+      <>
+        <div className="divider"></div>
+        <label ref={ref} htmlFor={`input-${questionNum}-1`}>{`${questionNum}: ${text}`}</label>
+        {children(qName)}
+      </>
     )
   },
 )
