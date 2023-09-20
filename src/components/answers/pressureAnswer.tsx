@@ -1,5 +1,5 @@
-import { defaultValues, entryData } from '@/views/formData'
-import { debounce, isEqual, isString } from 'lodash'
+import { entryData } from '@/views/formData'
+import { debounce, isString } from 'lodash'
 import { ChangeEvent } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 import styles from 'styles/answer.module.css'
@@ -14,12 +14,9 @@ export function PressureAnswer({ name, control }: PressureAnswerProps) {
     name,
     control,
     rules: {
-      validate: (value) => {
-        return !isEqual(value, defaultValues[name]) || 'Ответьте на вопрос'
-      },
       pattern: {
         value: /^\d+\\\d+$/,
-        message: 'Чего-то не хватает',
+        message: 'Укажите Ваше давление',
       },
     },
   })

@@ -4,8 +4,9 @@ import { PressureAnswer } from '@/components/answers/pressureAnswer'
 import { RadioAnswer } from '@/components/answers/radioAnswer'
 import { Question } from '@/components/question'
 import { useFormKeysRefs } from '@/hooks/useFormKeysRefs'
+import { Feedback, postEntry } from '@/utils/postEntry'
 import classNames from 'classnames'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import styles from 'styles/layout.module.css'
 import { defaultValues, entryData } from './formData'
@@ -15,17 +16,19 @@ interface FormViewProps {}
 export function FormView({}: FormViewProps) {
   const containerClasses = classNames(styles['grid-header'], styles.centered)
   const refs = useFormKeysRefs(Object.keys(defaultValues))
+  const [feedback, setFeedback] = useState<Feedback | null>(null)
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     control,
-    clearErrors,
   } = useForm<entryData>({ defaultValues })
 
-  const onSubmit: SubmitHandler<entryData> = (data) => {
-    console.log(data)
+  const onSubmit: SubmitHandler<entryData> = (entry) => {
+    postEntry(entry)
+      .then((response) => setFeedback(response))
+      .catch((error) => setFeedback(error))
   }
 
   useEffect(() => {
@@ -227,6 +230,7 @@ export function FormView({}: FormViewProps) {
         )}
       </Question>
       <input type="submit" />
+      {feedback && <div className={`feedback-message ${feedback.type}`}>{feedback.message}</div>}
     </form>
   )
 }

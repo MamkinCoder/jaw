@@ -1,4 +1,4 @@
-const apiUrl = 'https://jawhealth.site/php/get_person.php'
+const apiUrl = 'https://jawhealth.site/php/get_entry.php'
 
 fetch(apiUrl)
   .then((response) => {
