@@ -1,0 +1,17 @@
+@import 'variables';
+
+.board {
+  background-image: url('/images/brown-paper-text-space.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: scroll;
+  padding: $step * 4;
+  border-style: ridge;
+  border-width: $step * 4;
+  border-color: #d9fbdd;
+  border-radius: $step;
+  box-shadow:
+    20px 10px 15px 0px rgba(0, 0, 0, 0.75),
+    inset 10px 10px 15px 0px rgba(0, 0, 0, 0.75);
+  min-height: 100vh;
+}

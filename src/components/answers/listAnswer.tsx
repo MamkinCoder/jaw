@@ -6,7 +6,7 @@ import { Switch } from '@headlessui/react'
 import { isEqual } from 'lodash'
 import { Fragment, useCallback, useState } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
-import styles from 'styles/answer.module.css'
+import styles from 'styles/answer.module.scss'
 
 interface ListAnswerProps extends UseControllerProps<entryData> {
   nothing: string

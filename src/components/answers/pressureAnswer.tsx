@@ -2,7 +2,7 @@ import { entryData } from '@/views/formData'
 import { debounce, isString } from 'lodash'
 import { ChangeEvent } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
-import styles from 'styles/answer.module.css'
+import styles from 'styles/answer.module.scss'
 
 interface PressureAnswerProps extends UseControllerProps<entryData> {}
 

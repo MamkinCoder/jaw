@@ -1,7 +1,9 @@
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { ReactNode } from 'react'
+import styles from 'styles/layout.module.scss'
 import '../../styles/globals.scss'
+
 config.autoAddCss = false
 
 interface LayoutProps {
@@ -14,7 +16,9 @@ export default function Layout({ children }: LayoutProps) {
       <head>
         <title>Анкета ВНЧС</title>
       </head>
-      <body>{children}</body>
+      <body>
+        <div className={styles.board}>{children}</div>
+      </body>
     </html>
   )
 }

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { RadioGroup } from '@headlessui/react'
 import { isEqual } from 'lodash'
 import { UseControllerProps, useController } from 'react-hook-form'
-import styles from 'styles/answer.module.css'
+import styles from 'styles/answer.module.scss'
 
 interface GenderAnswerProps extends UseControllerProps<entryData> {}
 

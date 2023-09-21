@@ -3,7 +3,7 @@ import { entryData } from '@/views/formData'
 const apiUrl = 'https://jawhealth.site/php/insert_entry.php'
 
 export interface Feedback {
-  type: 'success' | 'error'
+  status: 'success' | 'error'
   message: string
 }
 
@@ -25,10 +25,10 @@ export const postEntry = async (data: entryData): Promise<Feedback> => {
     return await response.json()
   } catch (error) {
     if (error instanceof Error) {
-      console.error('Error:', error.message)
-      return { type: 'error', message: error.message }
+      console.error(error)
+      return { status: 'error', message: error.message }
     }
     console.error('Failed to post data:', error)
-    return { type: 'error', message: String(error) }
+    return { status: 'error', message: String(error) }
   }
 }
