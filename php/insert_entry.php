@@ -1,16 +1,7 @@
 <?php
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    header('Access-Control-Allow-Origin: *');
-    header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE');
-    header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
-    exit;
-}
+require_once 'db_connect.php';
 
-
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 function serializeForPostgreSQL($array) {
     return '{' . implode(',', array_map(function($value) {
@@ -18,42 +9,9 @@ function serializeForPostgreSQL($array) {
     }, $array)) . '}';
 }
 
-function loadEnv($file)
-{
-    if (!file_exists($file)) {
-        throw new Exception("'$file' not found.");
-    }
-
-    $content = file_get_contents($file);
-    $lines = explode("\n", $content);
-
-    foreach ($lines as $line) {
-        $line = trim($line);
-        if (empty($line) || strpos($line, '#') === 0) {
-            continue; // Skip empty lines and comments (lines starting with #)
-        }
-
-        list($key, $value) = explode('=', $line, 2);
-        $key = trim($key);
-        $value = trim($value);
-
-        if (!empty($key)) {
-            putenv("$key=$value");
-        }
-    }
-}
-
-loadEnv('../.env');
-
-$dbHost = getenv('DB_HOST');
-$dbPort = getenv('DB_PORT');
-$dbName = getenv('DB_NAME');
-$dbUser = getenv('DB_USER');
-$dbPassword = getenv('DB_PASSWORD');
-
 try {
     // ... [Your PDO connection and data fetching logic]
-    $pdo = new PDO("pgsql:host=$dbHost;port=$dbPort;dbname=$dbName", $dbUser, $dbPassword);
+    $pdo = connectToDatabase();
 
     $data = json_decode(file_get_contents('php://input'), true);
     $age = $data['age'];
