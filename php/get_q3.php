@@ -9,10 +9,10 @@ try {
     $query = "
 	SELECT
 		gender,
-		AVG(CASE WHEN q1[1] = TRUE THEN 1 ELSE 0 END) as average_0,
-		AVG(CASE WHEN q1[2] = TRUE THEN 1 ELSE 0 END) as average_1,
-		AVG(CASE WHEN q1[3] = TRUE THEN 1 ELSE 0 END) as average_2,
-		AVG(CASE WHEN q1 = '{f,f,f}'::boolean[] THEN 1 ELSE 0 END) as average_all_false
+		AVG(CASE WHEN q3[1] = TRUE THEN 1 ELSE 0 END) as average_0,
+		AVG(CASE WHEN q3[2] = TRUE THEN 1 ELSE 0 END) as average_1,
+		AVG(CASE WHEN q3[3] = TRUE THEN 1 ELSE 0 END) as average_2,
+		AVG(CASE WHEN q3 = '{f,f,f}'::boolean[] THEN 1 ELSE 0 END) as average_all_false
 	FROM
         public.entry
 	GROUP BY
