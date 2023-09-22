@@ -14,7 +14,7 @@ try {
 		AVG(CASE WHEN q1[3] = TRUE THEN 1 ELSE 0 END) as average_q1_2,
 		AVG(CASE WHEN q1 = '{f,f,f}'::boolean[] THEN 1 ELSE 0 END) as average_all_false
 	FROM
-		your_table_name
+        public.entry
 	GROUP BY
 		gender;
     ";
