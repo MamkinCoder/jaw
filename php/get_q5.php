@@ -11,7 +11,7 @@ try {
 		gender,
 		AVG(CASE WHEN q5[1] = TRUE THEN 1 ELSE 0 END) as average_0,
 		AVG(CASE WHEN q5[2] = TRUE THEN 1 ELSE 0 END) as average_1,
-		AVG(CASE WHEN q5[3] = TRUE THEN 1 ELSE 0 END) as average_2,
+		AVG(CASE WHEN q5[3] = TRUE THEN 1 ELSE 0 END) as average_2
 	FROM
         public.entry
 	GROUP BY
@@ -33,7 +33,7 @@ try {
         $output[$key] = [
             "average_0" => (float)$row['average_0'],
             "average_1" => (float)$row['average_1'],
-            "average_2" => (float)$row['average_2'],
+            "average_2" => (float)$row['average_2']
         ];
     }
 
