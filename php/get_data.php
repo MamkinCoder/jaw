@@ -4,14 +4,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$process->stdout->on('data', function ($chunk) use (&$data) {
-    $data .= $chunk;
-});
-
-$process->stderr->on('data', function ($chunk) {
-    echo 'Error in child process: ' . $chunk . PHP_EOL;
-});
-
 require '../vendor/autoload.php';
 
 use React\EventLoop\Factory;
@@ -40,6 +32,15 @@ $promises = [];
 foreach ($scripts as $script) {
     $process = new Process($script);
     $process->start($loop);
+
+	$process->stdout->on('data', function ($chunk) use (&$data) {
+		$data .= $chunk;
+	});
+	
+	$process->stderr->on('data', function ($chunk) {
+		echo 'Error in child process: ' . $chunk . PHP_EOL;
+	});
+
     $promises[] = new Promise(function ($resolve, $reject) use ($process) {
         $data = '';
         $process->stdout->on('data', function ($chunk) use (&$data) {
