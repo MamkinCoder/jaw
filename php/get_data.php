@@ -1,10 +1,10 @@
 <?php
 
-echo 'PHP Version: ' . phpversion();
+// echo 'PHP Version: ' . phpversion();
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
 require '../vendor/autoload.php';
 
@@ -35,13 +35,13 @@ foreach ($scripts as $script) {
     $process = new Process($script);
     $process->start($loop);
 
-	$process->stdout->on('data', function ($chunk) use (&$data) {
-		$data .= $chunk;
-	});
+	// $process->stdout->on('data', function ($chunk) use (&$data) {
+	// 	$data .= $chunk;
+	// });
 	
-	$process->stderr->on('data', function ($chunk) {
-		echo 'Error in child process: ' . $chunk . PHP_EOL;
-	});
+	// $process->stderr->on('data', function ($chunk) {
+	// 	echo 'Error in child process: ' . $chunk . PHP_EOL;
+	// });
 
     $promises[] = new Promise(function ($resolve, $reject) use ($process) {
         $data = '';
@@ -68,11 +68,24 @@ React\Promise\all($promises)
             $questionNumber = explode('_', $scriptName)[1];  // e.g., "q1"
             $output[$questionNumber] = json_decode($result, true);
         }
-        echo json_encode($output);
+
+		$response = [
+            'status' => 200,
+            'message' => 'Data retrieved successfully',
+            'data' => $output
+        ];
+
+        echo json_encode($response);
     })
     ->otherwise(function ($error) {
-        // Handle any errors
-        echo 'Error: ', $error->getMessage(), PHP_EOL;
+        
+		$response = [
+            'status' => 500,
+            'message' => 'Error: ' . $error->getMessage(),
+            'data' => null
+        ];
+
+        echo json_encode($response);
     });
 
 $loop->run();
