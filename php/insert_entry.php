@@ -11,7 +11,7 @@ function serializeForPostgreSQL($array) {
 
 try {
     // ... [Your PDO connection and data fetching logic]
-    $pdo = connectToDatabase();
+    $pdo = connectToDatabase($dbHost, $dbPort, $dbName, $dbUser, $dbPassword);
 
     $data = json_decode(file_get_contents('php://input'), true);
     $age = $data['age'];

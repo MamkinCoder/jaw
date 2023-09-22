@@ -3,7 +3,7 @@ require_once 'db_connect.php';
 
 try {
     // Get PDO connection
-    $pdo = connectToDatabase();
+    $pdo = connectToDatabase($dbHost, $dbPort, $dbName, $dbUser, $dbPassword);
 
     // Query to compute averages
     $query = "

@@ -6,7 +6,7 @@ require_once 'db_connect.php';
 // For example:
 try {
     // Establish the PDO connection
-    $pdo = connectToDatabase();
+    $pdo = connectToDatabase($dbHost, $dbPort, $dbName, $dbUser, $dbPassword);
 
     // Prepare and execute the SELECT query
     $stmt = $pdo->prepare('SELECT * FROM "public"."entry";');
