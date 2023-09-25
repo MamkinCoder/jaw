@@ -67,7 +67,7 @@ React\Promise\all($promises)
             // Extract 'q1' from 'php get_q1.php', 'q2' from 'php get_q2.php', etc.
             $scriptName = basename($scripts[$key], '.php');  // e.g., "get_q1"
             $questionNumber = explode('_', $scriptName)[1];  // e.g., "q1"
-            $output[$questionNumber] = json_decode($result, true);
+            $output[$questionNumber] = json_decode(trim($result), true);
         }
 
 		echo "Combined output structure: ";
