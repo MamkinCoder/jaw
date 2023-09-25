@@ -1,5 +1,5 @@
 <?php
-
+ob_start();
 // echo 'PHP Version: ' . phpversion();
 
 // ini_set('display_errors', 1);
@@ -40,10 +40,6 @@ $promises = [];
 foreach ($scripts as $script) {
     $process = new Process($script);
     $process->start($loop);
-
-	$process->stdout->on('data', function ($chunk) use (&$data) {
-		$data .= $chunk;
-	});
 	
 	$process->stderr->on('data', function ($chunk) {
 		echo 'Error in child process: ' . $chunk . PHP_EOL;
@@ -52,9 +48,9 @@ foreach ($scripts as $script) {
     $promises[] = new Promise(function ($resolve, $reject) use ($process) {
         $data = '';
         $process->stdout->on('data', function ($chunk) use (&$data) {
-            $data .= trim($chunk);
-			echo "Debug output for script: {$chunk}\n\n";
-        });
+			$data .= str_replace(["\r", "\n"], '', $chunk); // Remove newlines here
+			echo "Debug output for script: {$data}\n\n"; // Debug print the accumulated $data
+		});
         $process->on('exit', function ($exitCode) use (&$data, $resolve, $reject) {
             if ($exitCode === 0) {
                 $resolve($data);
@@ -87,7 +83,7 @@ React\Promise\all($promises)
             'message' => 'Data retrieved successfully',
             'data' => $output
         ];
-
+		ob_clean();
         echo json_encode($response);
     })
     ->otherwise(function ($error) {
