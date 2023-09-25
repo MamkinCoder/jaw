@@ -37,6 +37,7 @@ try {
     $response = [
         'status' => 200,
         'message' => 'Data retrieved successfully',
+        'text' => 'Вопрос 11',
         'data' => $output
     ];
 
