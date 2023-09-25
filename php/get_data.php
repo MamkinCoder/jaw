@@ -12,6 +12,12 @@ use React\EventLoop\Factory;
 use React\ChildProcess\Process;
 use React\Promise\Promise;
 
+function sanitizeArray(&$item, $key) {
+    if (is_string($item)) {
+        $item = str_replace(["\r", "\n"], '', $item);
+    }
+}
+
 $loop = Factory::create();
 
 $scripts = [
@@ -67,11 +73,14 @@ React\Promise\all($promises)
             // Extract 'q1' from 'php get_q1.php', 'q2' from 'php get_q2.php', etc.
             $scriptName = basename($scripts[$key], '.php');  // e.g., "get_q1"
             $questionNumber = explode('_', $scriptName)[1];  // e.g., "q1"
-            $output[$questionNumber] = json_decode(trim($result), true);
+            $cleanedResult = str_replace(["\r", "\n"], '', $result);
+			$output[$questionNumber] = json_decode($cleanedResult, true);
         }
 
 		echo "Combined output structure: ";
 		print_r($output);
+
+		array_walk_recursive($output, 'sanitizeArray');
 
 		$response = [
             'status' => 200,
@@ -88,7 +97,7 @@ React\Promise\all($promises)
             'message' => 'Error: ' . $error->getMessage(),
             'data' => null
         ];
-
+		ob_clean();
         echo json_encode($response);
     });
 
