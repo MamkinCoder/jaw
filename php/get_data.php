@@ -1,10 +1,5 @@
 <?php
-ob_start();
-// echo 'PHP Version: ' . phpversion();
-
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+// ob_start();
 
 require '../vendor/autoload.php';
 
@@ -83,7 +78,7 @@ React\Promise\all($promises)
             'message' => 'Data retrieved successfully',
             'data' => $output
         ];
-		ob_clean();
+		// ob_clean();
         echo json_encode($response);
     })
     ->otherwise(function ($error) {
@@ -93,7 +88,7 @@ React\Promise\all($promises)
             'message' => 'Error: ' . $error->getMessage(),
             'data' => null
         ];
-		ob_clean();
+		// ob_clean();
         echo json_encode($response);
     });
 
