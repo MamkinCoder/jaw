@@ -23,9 +23,9 @@ export function ListAnswer({ labels, nothing, control, name }: ListAnswerProps) 
     name,
     control,
     rules: {
-      validate: (value) => {
-        return !isEqual(value, defaultValues[name]) || 'Ответьте на вопрос'
-      },
+      // validate: (value) => {
+      //   return !isEqual(value, defaultValues[name]) || 'Ответьте на вопрос'
+      // },
     },
   })
   const booleanValue = value as boolean[]

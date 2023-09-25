@@ -4,23 +4,27 @@ import { PressureAnswer } from '@/components/answers/pressureAnswer'
 import { RadioAnswer } from '@/components/answers/radioAnswer'
 import { Question } from '@/components/question'
 import { useFormKeysRefs } from '@/hooks/useFormKeysRefs'
-import { Feedback, postEntry } from '@/utils/postEntry'
+import { postEntry } from '@/utils/postEntry'
 import classNames from 'classnames'
-import { SnackbarProvider, enqueueSnackbar } from 'notistack'
-import { ReactElement, useEffect, useState } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { useSnackbar } from 'notistack'
+import { CSSProperties, Dispatch, ReactElement, SetStateAction, useEffect } from 'react'
+import { SubmitHandler, UseFormReturn } from 'react-hook-form'
 import paperStyles from 'styles/a4.module.scss'
 import styles from 'styles/form.module.scss'
 import { defaultValues, entryData } from './formData'
 
 interface FormViewProps {
   children: ReactElement
+  form: UseFormReturn<entryData, any, undefined>
+  setModal?: Dispatch<SetStateAction<boolean>>
+  style?: CSSProperties | undefined
+  className?: string
 }
 
-export function FormView({ children }: FormViewProps) {
+export function FormView({ children, form, setModal, style, className }: FormViewProps) {
   const containerClasses = classNames(styles['grid-header'], styles.centered)
   const refs = useFormKeysRefs(Object.keys(defaultValues))
-  const [feedback, setFeedback] = useState<Feedback | null>(null)
+  const { enqueueSnackbar } = useSnackbar()
 
   const {
     register,
@@ -29,7 +33,7 @@ export function FormView({ children }: FormViewProps) {
     control,
     formState,
     reset,
-  } = useForm<entryData>({ defaultValues })
+  } = form
 
   const onSubmit: SubmitHandler<entryData> = (entry) => {
     postEntry(entry)
@@ -67,9 +71,12 @@ export function FormView({ children }: FormViewProps) {
 
   useEffect(() => {
     if (formState.isSubmitSuccessful) {
-      // reset()
+      setModal && setModal(false)
     }
-    if (formState.isSubmitting && formState.isValid) {
+  }, [formState.isSubmitSuccessful, reset, setModal])
+
+  useEffect(() => {
+    if (formState.isSubmitting) {
       enqueueSnackbar('Анкета отправляется', {
         anchorOrigin: {
           vertical: 'bottom',
@@ -77,11 +84,13 @@ export function FormView({ children }: FormViewProps) {
         },
       })
     }
-  }, [formState.isSubmitSuccessful, formState.isSubmitting, formState.isValid, reset])
+  }, [enqueueSnackbar, formState.isSubmitting])
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles['grid-container']}>
-      <SnackbarProvider />
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className={classNames(styles['grid-container'], className)}
+    >
       <div className={containerClasses}>{children}</div>
       <label>
         Ваш возраст
@@ -264,7 +273,7 @@ export function FormView({ children }: FormViewProps) {
           />
         )}
       </Question>
-      <input type="submit" />
+      <input type="submit" value="Отправить" />
       {/* <div className={paperStyles['organic-paper']}></div> */}
       <div className={paperStyles['paper-shadow']}></div>
       <div className={paperStyles['paper-highlight']}></div>

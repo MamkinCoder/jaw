@@ -1,16 +1,34 @@
 @import 'variables';
 .a4 {
-  // padding: $step * 4;
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-left: 40px;
-  background-color: gainsboro;
+  // background-color: $color-paper;
   position: relative;
   width: 400px;
-  height: auto;
+  height: 546px;
   aspect-ratio: 1/1.414;
   box-shadow: 10px 5px 20px 0px rgba(0, 0, 0, 0.5);
+  font-size: $step;
+  // rotate: 5deg;
+}
+
+.a4-container {
+  flex: 0 0 auto; // This ensures the left column doesn't grow, but takes the width it needs.
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.a4-container p {
+  // background-color: $color-paper;
+  background-image: url(/images/p-paper.png);
+  background-size: cover;
+  padding: $step * 4;
+  background-blend-mode: darken;
+  font-family: 'Caveat', cursive;
+  font-size: 1.2em;
 }
 
 .plastic-bag {
@@ -20,6 +38,7 @@
   height: 102%;
   background-image: url(/images/plastic-bag.png);
   background-size: 100% 100%;
+  pointer-events: none;
 }
 
 .organic-paper {
@@ -53,6 +72,33 @@
   pointer-events: none;
 }
 
+.cover {
+  position: absolute;
+  background-color: $color-paper;
+  height: 100%;
+  width: 100%;
+  font-size: 5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.form-preview {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  // position: absolute;
+}
+
+.move-up {
+  transition: transform 0.3s ease-in-out;
+}
+
+.move-up:hover {
+  transform: translateY(-$step * 10);
+}
+
 .edit {
   position: absolute;
   width: 15%;
@@ -74,6 +120,11 @@
   inset: 0px;
   z-index: $z-index-modal;
   background: rgba(0, 0, 0, 0.5);
+  padding: $step * 3;
+
+  @media (max-width: $mobile) {
+    padding: 0;
+  }
 }
 
 .dialog-backdrop {

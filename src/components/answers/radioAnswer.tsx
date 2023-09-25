@@ -1,4 +1,4 @@
-import { defaultValues, entryData } from '@/views/formData'
+import { entryData } from '@/views/formData'
 import { faCircle } from '@fortawesome/free-regular-svg-icons'
 import { faCircleDot } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -28,9 +28,9 @@ export function RadioAnswer({ labels, control, name }: RadioAnswerProps) {
   } = useController({
     name,
     control,
-    rules: {
-      validate: (value) => !isEqual(value, defaultValues[name]) || 'Ответьте на вопрос',
-    },
+    // rules: {
+    //   validate: (value) => !isEqual(value, defaultValues[name]) || 'Ответьте на вопрос',
+    // },
   })
   const booleanValue = value as boolean[]
   return (

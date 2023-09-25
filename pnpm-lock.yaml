@@ -61,6 +61,9 @@ devDependencies:
   '@types/lodash':
     specifier: ^4.14.198
     version: 4.14.198
+  '@types/splitting':
+    specifier: ^1.0.2
+    version: 1.0.2
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.6.0
     version: 6.6.0(@typescript-eslint/parser@6.6.0)(eslint@8.49.0)(typescript@5.2.2)
@@ -472,6 +475,10 @@ packages:
 
   /@types/semver@7.5.1:
     resolution: {integrity: sha512-cJRQXpObxfNKkFAZbJl2yjWtJCqELQIdShsogr1d2MilP8dKD9TE/nEKHkJgUNHdGKCQaf9HbIynuV2csLGVLg==}
+    dev: true
+
+  /@types/splitting@1.0.2:
+    resolution: {integrity: sha512-+pvjkMJbfrJmrBJBNxTjr8qH9k4/OhKs+c2bzL9+x834j0+pCfZOzU1yCRyQuD0872ko53hq7x6cmAF3na08gg==}
     dev: true
 
   /@typescript-eslint/eslint-plugin@6.6.0(@typescript-eslint/parser@6.6.0)(eslint@8.49.0)(typescript@5.2.2):

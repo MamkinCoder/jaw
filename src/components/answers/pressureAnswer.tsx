@@ -35,6 +35,28 @@ export function PressureAnswer({ name, control }: PressureAnswerProps) {
     onChange(result)
   }
 
+  function getLeftNumber(str: string): number {
+    let leftSide = str.split('\\')[0]
+    let result = parseInt(leftSide, 10)
+
+    if (isNaN(result)) {
+      result = 0
+    }
+
+    return result
+  }
+
+  function getRightNumber(str: string): number {
+    let rightSide = str.split('\\')[1]
+    let result = parseInt(rightSide, 10)
+
+    if (isNaN(result)) {
+      result = 0
+    }
+
+    return result
+  }
+
   return (
     <div>
       <input
@@ -44,6 +66,7 @@ export function PressureAnswer({ name, control }: PressureAnswerProps) {
         onChange={handleLeft}
         maxLength={3}
         type="number"
+        defaultValue={getLeftNumber(value as string)}
       />
       \
       <input
@@ -53,6 +76,7 @@ export function PressureAnswer({ name, control }: PressureAnswerProps) {
         onChange={handleRight}
         maxLength={3}
         type="number"
+        defaultValue={getRightNumber(value as string)}
       />
       {error && <p>{error.message}</p>}
     </div>

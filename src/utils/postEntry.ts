@@ -1,6 +1,6 @@
 import { entryData } from '@/views/formData'
 
-const apiUrl = 'https://jawhealth.site/php/insert_entry.php'
+const apiUrl = 'https://jawhealth.site/php/test.php'
 
 export interface Feedback {
   status: 'success' | 'error'
@@ -22,6 +22,7 @@ export const postEntry = async (data: entryData): Promise<Feedback> => {
       throw new Error(`HTTP error! Status: ${response.status}`)
     }
 
+    return { status: 'success', message: await response.text() }
     return await response.json()
   } catch (error) {
     if (error instanceof Error) {

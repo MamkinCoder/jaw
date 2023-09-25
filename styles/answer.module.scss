@@ -1,3 +1,5 @@
+@import 'variables';
+
 .form-container {
   display: flex;
   flex-direction: column;
@@ -11,23 +13,21 @@
 
 .form-input {
   padding: 10px;
-  /* font-size: 14px; */
-  border: 1px solid #ccc;
+  border: 1px solid $color-grey;
   border-radius: 5px;
   outline: none;
   transition: border-color 0.2s ease-in-out;
   max-width: 400px;
   overflow-y: hidden;
   resize: none;
-  /* min-height: 50px; */
 }
 
 .form-input:focus {
-  border-color: #007bff;
+  border-color: $color-main;
 }
 
 .form-list {
-  border-color: #007bff;
+  border-color: $color-main;
 }
 
 .form-text {

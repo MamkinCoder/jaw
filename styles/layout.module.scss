@@ -1,16 +1,29 @@
 @import 'variables';
 
 .board {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $step * 8;
   background-image: url('/images/brown-paper-text-space.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: scroll;
   padding: $step * 4;
+  margin: $step * 5;
   border-style: ridge;
-  border-width: $step * 4;
-  border-color: beige;
+  border-width: $step * 3;
+  border-color: $color-grey;
   border-radius: $step;
   box-shadow:
     20px 10px 15px 0px rgba(0, 0, 0, 0.75),
     inset 10px 10px 15px 0px rgba(0, 0, 0, 0.75);
+  flex-grow: 1;
+
+  @media (max-width: $mobile) {
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
 }

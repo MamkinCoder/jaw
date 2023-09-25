@@ -1,9 +1,8 @@
-import { defaultValues, entryData } from '@/views/formData'
+import { entryData } from '@/views/formData'
 import { faCircle } from '@fortawesome/free-regular-svg-icons'
 import { faPerson, faPersonDress } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { RadioGroup } from '@headlessui/react'
-import { isEqual } from 'lodash'
 import { UseControllerProps, useController } from 'react-hook-form'
 import styles from 'styles/answer.module.scss'
 
@@ -17,9 +16,9 @@ export function GenderAnswer({ control, name }: GenderAnswerProps) {
     name,
     control,
     rules: {
-      validate: (value) => {
-        return !isEqual(value, defaultValues[name]) || 'Ответьте на вопрос'
-      },
+      // validate: (value) => {
+      //   return !isEqual(value, defaultValues[name]) || 'Ответьте на вопрос'
+      // },
     },
   })
   return (

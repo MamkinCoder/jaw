@@ -1,12 +1,14 @@
 @import 'variables';
 .grid-container {
-  padding: 0px $step * 5 $step * 5;
+  padding: 0px $step * 5 $step * 5 * 1.41 * 2;
   position: relative;
-  background-color: white;
+  background-color: $color-paper;
   display: grid;
   grid-template-columns: minmax(100px, 1fr) 2fr;
   gap: 10px;
-  box-shadow: 10px 5px 20px 0px rgba(0, 0, 0, 0.5);
+  // box-shadow: 10px 5px 20px 0px rgba(0, 0, 0, 0.5);
+  font-size: 1em;
+  cursor: url('/images/barcode.png'), auto;
 }
 
 .grid-header {
@@ -14,7 +16,7 @@
   justify-self: start;
 }
 
-@media (max-width: 500px) {
+@media (max-width: $mobile) {
   .grid-container {
     grid-template-columns: 1fr;
   }
