@@ -3,28 +3,29 @@ ob_start();
 
 require '../vendor/autoload.php';
 
-header('Content-Type: application/json');
-
-
 use React\EventLoop\Factory;
 use React\ChildProcess\Process;
 use React\Promise\Promise;
+
+header('Content-Type: application/json');
+
+
 
 $loop = Factory::create();
 
 $scripts = [
     'php8.2 get_q1.php',
-	// 'php8.2 get_q3.php',
-	// 'php8.2 get_q4.php',
-    // 'php8.2 get_q5.php',
-    // 'php8.2 get_q6.php',
-    // 'php8.2 get_q7.php',
-    // 'php8.2 get_q8.php',
-    // 'php8.2 get_q9.php',
-    // 'php8.2 get_q10.php',
-    // 'php8.2 get_q11.php',
-    // 'php8.2 get_q12.php',
-	// 'php8.2 get_q13.php',
+	'php8.2 get_q3.php',
+	'php8.2 get_q4.php',
+    'php8.2 get_q5.php',
+    'php8.2 get_q6.php',
+    'php8.2 get_q7.php',
+    'php8.2 get_q8.php',
+    'php8.2 get_q9.php',
+    'php8.2 get_q10.php',
+    'php8.2 get_q11.php',
+    'php8.2 get_q12.php',
+	'php8.2 get_q13.php',
 ];
 
 $promises = [];
@@ -40,8 +41,7 @@ foreach ($scripts as $script) {
     $promises[] = new Promise(function ($resolve, $reject) use ($process) {
         $data = '';
         $process->stdout->on('data', function ($chunk) use (&$data) {
-			$data .= str_replace(["\r", "\n"], '', $chunk); // Remove newlines here
-			// echo "Debug output for script: {$data}\n\n"; // Debug print the accumulated $data
+			$data .= trim($chunk);
 		});
         $process->on('exit', function ($exitCode) use (&$data, $resolve, $reject) {
             if ($exitCode === 0) {
@@ -55,18 +55,12 @@ foreach ($scripts as $script) {
 
 React\Promise\all($promises)
     ->then(function ($results) use ($scripts) {
-        // Create an associative array with the script names as keys and their outputs as values
         $output = [];
         foreach ($results as $key => $result) {
-            // Extract 'q1' from 'php get_q1.php', 'q2' from 'php get_q2.php', etc.
-            $scriptName = basename($scripts[$key], '.php');  // e.g., "get_q1"
-            $questionNumber = explode('_', $scriptName)[1];  // e.g., "q1"
-            $cleanedResult = str_replace(["\r", "\n"], '', $result);
-			$output[$questionNumber] = json_decode($cleanedResult, true);
+            $scriptName = basename($scripts[$key], '.php');
+            $questionNumber = explode('_', $scriptName)[1];
+			$output[$questionNumber] = json_decode($result, true);
         }
-
-		// echo "Combined output structure: ";
-		// print_r($output);
 
 		$response = [
             'status' => 200,
@@ -84,7 +78,6 @@ React\Promise\all($promises)
         ];
         echo json_encode($response);
     });
-	ob_end_flush();
-
 $loop->run();
+ob_end_flush();
 ?>
