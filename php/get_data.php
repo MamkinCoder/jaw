@@ -16,17 +16,17 @@ $loop = Factory::create();
 
 $scripts = [
     'php8.2 get_q1.php',
-	'php8.2 get_q3.php',
-	'php8.2 get_q4.php',
-    'php8.2 get_q5.php',
-    'php8.2 get_q6.php',
-    'php8.2 get_q7.php',
-    'php8.2 get_q8.php',
-    'php8.2 get_q9.php',
-    'php8.2 get_q10.php',
-    'php8.2 get_q11.php',
-    'php8.2 get_q12.php',
-	'php8.2 get_q13.php',
+	// 'php8.2 get_q3.php',
+	// 'php8.2 get_q4.php',
+    // 'php8.2 get_q5.php',
+    // 'php8.2 get_q6.php',
+    // 'php8.2 get_q7.php',
+    // 'php8.2 get_q8.php',
+    // 'php8.2 get_q9.php',
+    // 'php8.2 get_q10.php',
+    // 'php8.2 get_q11.php',
+    // 'php8.2 get_q12.php',
+	// 'php8.2 get_q13.php',
 ];
 
 $promises = [];
