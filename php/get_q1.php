@@ -42,7 +42,7 @@ try {
     // Success response
     $response = [
         'status' => 200,
-        'message' => 'Data_retrieved_successfully',
+        'message' => 'Data retrieved successfully',
         'data' => $output
     ];
 

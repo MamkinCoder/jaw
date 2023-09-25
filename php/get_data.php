@@ -1,17 +1,14 @@
 <?php
-// ob_start();
+ob_start();
 
 require '../vendor/autoload.php';
+
+header('Content-Type: application/json');
+
 
 use React\EventLoop\Factory;
 use React\ChildProcess\Process;
 use React\Promise\Promise;
-
-function sanitizeArray(&$item, $key) {
-    if (is_string($item)) {
-        $item = str_replace(["\r", "\n"], '', $item);
-    }
-}
 
 $loop = Factory::create();
 
@@ -44,7 +41,7 @@ foreach ($scripts as $script) {
         $data = '';
         $process->stdout->on('data', function ($chunk) use (&$data) {
 			$data .= str_replace(["\r", "\n"], '', $chunk); // Remove newlines here
-			echo "Debug output for script: {$data}\n\n"; // Debug print the accumulated $data
+			// echo "Debug output for script: {$data}\n\n"; // Debug print the accumulated $data
 		});
         $process->on('exit', function ($exitCode) use (&$data, $resolve, $reject) {
             if ($exitCode === 0) {
@@ -68,17 +65,14 @@ React\Promise\all($promises)
 			$output[$questionNumber] = json_decode($cleanedResult, true);
         }
 
-		echo "Combined output structure: ";
-		print_r($output);
-
-		array_walk_recursive($output, 'sanitizeArray');
+		// echo "Combined output structure: ";
+		// print_r($output);
 
 		$response = [
             'status' => 200,
             'message' => 'Data retrieved successfully',
             'data' => $output
         ];
-		// ob_clean();
         echo json_encode($response);
     })
     ->otherwise(function ($error) {
@@ -88,9 +82,9 @@ React\Promise\all($promises)
             'message' => 'Error: ' . $error->getMessage(),
             'data' => null
         ];
-		// ob_clean();
         echo json_encode($response);
     });
+	ob_end_flush();
 
 $loop->run();
 ?>
