@@ -1,143 +1,22 @@
 @import 'variables';
-.a4 {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: 40px;
-  // background-color: $color-paper;
-  position: relative;
-  width: 400px;
-  height: 546px;
-  aspect-ratio: 1/1.414;
-  box-shadow: 10px 5px 20px 0px rgba(0, 0, 0, 0.5);
-  font-size: $step;
-  // rotate: 5deg;
-}
+@import 'mixins';
 
 .a4-container {
-  flex: 0 0 auto; // This ensures the left column doesn't grow, but takes the width it needs.
-  width: 400px;
   display: flex;
   flex-direction: column;
+  flex: 2;
+  grid-area: 1 / 1 / span 4 / span 2;
 }
 
 .a4-container p {
-  // background-color: $color-paper;
-  background-image: url(/images/p-paper.png);
-  background-size: cover;
-  padding: $step * 4;
-  background-blend-mode: darken;
-  font-family: 'Caveat', cursive;
-  font-size: 1.2em;
+  border-radius: $border-radius;
+  box-shadow: $shadow;
+  padding: $step;
 }
 
-.plastic-bag {
-  position: absolute;
-  left: -9%;
-  width: 110%;
-  height: 102%;
-  background-image: url(/images/plastic-bag.png);
-  background-size: 100% 100%;
-  pointer-events: none;
-}
-
-.organic-paper {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-image: url(/images/organic-paper.png);
-  background-size: 100% 100%;
-  mix-blend-mode: multiply;
-  pointer-events: none;
-}
-
-.paper-shadow {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-image: url(/images/paper-shadow.png);
-  background-size: 100% 100%;
-  mix-blend-mode: multiply;
-  pointer-events: none;
-}
-
-.paper-highlight {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-image: url(/images/paper-highlight.png);
-  background-size: 100% 100%;
-  opacity: 0.3;
-  // mix-blend-mode: screen;
-  pointer-events: none;
-}
-
-.cover {
-  position: absolute;
-  background-color: $color-paper;
-  height: 100%;
-  width: 100%;
-  font-size: 5em;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  pointer-events: none;
-}
-
-.form-preview {
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-  // position: absolute;
-}
-
-.move-up {
-  transition: transform 0.3s ease-in-out;
-}
-
-.move-up:hover {
-  transform: translateY(-$step * 10);
-}
-
-.edit {
-  position: absolute;
-  width: 15%;
-  height: auto;
-  right: $step * 3;
-  top: 0px;
-}
-.barcode {
-  position: absolute;
-  width: 30%;
-  height: auto;
-  bottom: $step * 3;
-}
-
-.dialog {
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  inset: 0px;
-  z-index: $z-index-modal;
-  background: rgba(0, 0, 0, 0.5);
-  padding: $step * 3;
-
-  @media (max-width: $mobile) {
-    padding: 0;
-  }
-}
-
-.dialog-backdrop {
-  background: rgba($color: #4cecbf, $alpha: 1);
-  // height: 200px;
-  // width: 500px;
-  position: fixed;
-}
-
-.dialog-body {
-  position: relative;
-  width: 800px;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
+.phone {
+  @include link-colors;
+  font-family: var(--font-pt-mono);
+  font-size: 0.8em;
+  white-space: nowrap;
 }

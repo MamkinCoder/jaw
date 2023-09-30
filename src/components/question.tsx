@@ -1,11 +1,11 @@
-import { entryData } from '@/views/formData'
+import { EntryData } from '@/views/formData'
 import { forwardRef } from 'react'
 import { FieldPath } from 'react-hook-form'
 
 interface QuestionProps {
   text: string
   questionNum: number
-  children: (name: FieldPath<entryData>) => React.ReactElement
+  children: (name: FieldPath<EntryData>) => React.ReactElement
 }
 
 export const Question = forwardRef<HTMLLabelElement, QuestionProps>(

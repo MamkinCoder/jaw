@@ -1,0 +1,9 @@
+@import 'variables';
+
+@mixin link-colors {
+  color: $color-main;
+
+  &:hover {
+    color: $color-highlight;
+  }
+}

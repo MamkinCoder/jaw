@@ -1,3 +1,4 @@
+import { pt_mono } from '@/app/layout'
 import { GenderData, QuestionData } from '@/utils/getData'
 import {
   BarElement,
@@ -9,6 +10,8 @@ import {
   Title,
   Tooltip,
 } from 'chart.js'
+import classNames from 'classnames'
+import { CSSProperties, useEffect } from 'react'
 import { Bar } from 'react-chartjs-2'
 import styles from 'styles/stickyNotes.module.scss'
 
@@ -16,52 +19,106 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 interface StickyNoteProps {
   data: QuestionData
+  labels: string[]
+  text: string[]
+  style?: CSSProperties | undefined
 }
 
-export function StickyNote({ data }: StickyNoteProps) {
+const fontFamily = "'PT Mono', monospace"
+const fontColor = '#160c28'
+
+export function StickyNote({ data, labels, text, style }: StickyNoteProps) {
+  useEffect(() => {
+    ChartJS.defaults.color = fontColor
+  }, [])
   const options: ChartOptions<'bar'> = {
     maintainAspectRatio: false,
-    responsive: true,
     plugins: {
       legend: {
         position: 'top' as const,
+        labels: {
+          font: {
+            family: fontFamily,
+          },
+        },
+      },
+      tooltip: {
+        titleFont: {
+          family: fontFamily,
+        },
+        bodyFont: {
+          family: fontFamily,
+        },
       },
       title: {
         display: true,
-        text: data.text,
+        text,
+        font: {
+          family: fontFamily,
+        },
+      },
+    },
+    scales: {
+      y: {
+        min: 0,
+        max: 100,
+        ticks: {
+          callback: function (value, index, values) {
+            return value + '%'
+          },
+          font: {
+            family: fontFamily,
+          },
+        },
+      },
+      x: {
+        ticks: {
+          font: {
+            family: fontFamily,
+          },
+        },
       },
     },
   }
 
-  const labelNames: { [K in keyof GenderData]?: string } = {
-    average_0: 'Вариант 1',
-    average_1: 'Вариант 2',
-    average_2: 'Вариант 3',
-    average_all_false: 'Вариант все',
-    most_common_string: 'Самая частая болезнь',
-  }
+  const labelsData = Object.keys(data.data.male) as (keyof GenderData)[]
 
-  const labels = Object.keys(data.data.male) as (keyof GenderData)[]
-
-  const mockData = {
-    labels: labels.map((label) => labelNames[label] || label),
+  const dataSet = {
+    labels,
     datasets: [
       {
         label: 'Мужчины',
-        data: labels.map((label) => data.data.male[label]),
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        data: labelsData.map((label) => {
+          const value = data.data.male[label]
+          if (typeof value === 'number') return value * 100
+          return value
+        }),
+        backgroundColor: 'rgba(142, 220, 230, 0.5)',
       },
       {
         label: 'Женщины',
-        data: labels.map((label) => data.data.female[label]),
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        data: labelsData.map((label) => {
+          const value = data.data.female[label]
+          if (typeof value === 'number') return value * 100
+          return value
+        }),
+        backgroundColor: 'rgba(238, 66, 102, 0.5)',
       },
     ],
   }
-
   return (
-    <div className={styles.note}>
-      <Bar options={options} data={mockData} />
+    <div className={classNames(styles.note, pt_mono.className)} style={style}>
+      {labelsData[0] === 'most_common_string' ? (
+        <>
+          <h3>{text}</h3>
+          <h4>Самое частое у мужчин:</h4>
+          <p>{data.data.male.most_common_string}</p>
+          <h4>Самое частое у женщин:</h4>
+          <p>{data.data.female.most_common_string}</p>
+        </>
+      ) : (
+        <Bar options={options} data={dataSet} />
+      )}
     </div>
   )
 }

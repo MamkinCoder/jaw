@@ -1,15 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Noto+Serif:wght@400;500;700&display=swap');
 @import 'variables';
 body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100vh;
-  margin: 0;
-  font-family: 'Noto Serif', serif;
-  background-image: url('/images/white-wall-texture.jpg');
-  background-repeat: repeat;
-  background-size: 100%;
+  background-color: $color-light;
+  background: linear-gradient(
+    300deg,
+    rgba(249, 233, 236, 0.8) 0%,
+    rgba(255, 233, 205, 0.8) 30%,
+    rgba(248, 235, 206, 0.8) 50%,
+    rgba(249, 233, 236, 0.8) 100%
+  );
   color: $color-dark;
 }
 
@@ -30,6 +31,7 @@ textarea::placeholder {
 
 input {
   font-size: 1em;
+  font-family: 'PT Mono', monospace;
 }
 
 a {
@@ -37,8 +39,26 @@ a {
   color: inherit;
 }
 
+label {
+  word-break: break-word;
+}
+
 .divider {
   grid-column: 1 / -1;
-  height: 2px;
-  background-color: $color-dark;
+  height: 20px;
+  width: calc(100% + $step * 4);
+  transform: translate(-$step * 2, -20px);
+  border-bottom-left-radius: $border-radius; /* Adjust as per your needs */
+  border-bottom-right-radius: $border-radius; /* Adjust as per your needs */
+  box-shadow: 0px 10px 10px rgba(165, 48, 48, 0.15);
+}
+
+.selected {
+  color: $color-main;
+  border-width: 0px 0px 3px 0px;
+  border-style: solid;
+}
+
+.checked {
+  color: $color-main;
 }

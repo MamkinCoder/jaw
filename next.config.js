@@ -6,7 +6,7 @@ const nextConfig = {
     includePaths: [path.join(__dirname, 'styles')],
   },
   output: 'export',
-  assetPrefix: './',
+  assetPrefix: '/',
   images: {
     unoptimized: true,
   },

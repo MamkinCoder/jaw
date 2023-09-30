@@ -9,7 +9,6 @@ export type GenderData = {
 export type QuestionData = {
   status: number
   message: string
-  text: string
   data: {
     female: GenderData
     male: GenderData

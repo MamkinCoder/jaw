@@ -1,5 +1,8 @@
 $step: 8px;
 
+$border-radius: 16px;
+$shadow: 10px 10px 20px rgba(165, 48, 48, 0.3);
+
 $mobile: 500px;
 
 $z-index-foreground: 100;
@@ -9,9 +12,9 @@ $z-index-dropdown: 500;
 $z-index-tooltip: 10000;
 $z-index-overlay: 100000;
 
-$color-dark: #2a2b2e;
+$color-dark: #160c28;
 $color-highlight: #8edce6;
 $color-grey: #a7b0ca;
-$color-light: #d5dcf9;
-$color-main: #05668d;
-$color-paper: #edf0fc;
+$color-light: #f9e9ec;
+$color-main: #006daa;
+$color-alt: #ee4266;

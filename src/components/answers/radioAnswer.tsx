@@ -1,13 +1,13 @@
-import { entryData } from '@/views/formData'
+import { EntryData, defaultValues } from '@/views/formData'
 import { faCircle } from '@fortawesome/free-regular-svg-icons'
 import { faCircleDot } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { RadioGroup } from '@headlessui/react'
 import { isEqual } from 'lodash'
 import { UseControllerProps, useController } from 'react-hook-form'
-import styles from 'styles/answer.module.scss'
+import styles from 'styles/form.module.scss'
 
-interface RadioAnswerProps extends UseControllerProps<entryData> {
+interface RadioAnswerProps extends UseControllerProps<EntryData> {
   labels: string[]
 }
 
@@ -28,9 +28,9 @@ export function RadioAnswer({ labels, control, name }: RadioAnswerProps) {
   } = useController({
     name,
     control,
-    // rules: {
-    //   validate: (value) => !isEqual(value, defaultValues[name]) || 'Ответьте на вопрос',
-    // },
+    rules: {
+      validate: (value) => !isEqual(value, defaultValues[name]) || 'Ответьте на вопрос',
+    },
   })
   const booleanValue = value as boolean[]
   return (
@@ -41,29 +41,33 @@ export function RadioAnswer({ labels, control, name }: RadioAnswerProps) {
       className={styles['form-container']}
       by={compareArrays}
     >
-      <div>
-        {labels.map((value, index) => {
-          return (
-            <RadioGroup.Option
-              key={`radio-${name}-${index}`}
-              id={`radio-${name}-${index}`}
-              value={createArray(labels.length, index)}
-            >
-              {({ checked }) => (
-                <div className={`flex items-center ${checked ? 'text-blue-500' : ''}`}>
-                  {checked ? (
-                    <FontAwesomeIcon icon={faCircleDot} />
-                  ) : (
-                    <FontAwesomeIcon icon={faCircle} />
-                  )}
-                  <RadioGroup.Label id={`radio-${name}-${index}`}>{value}</RadioGroup.Label>
-                </div>
-              )}
-            </RadioGroup.Option>
-          )
-        })}
-      </div>
-      {error && <p>{error.message}</p>}
+      {labels.map((value, index) => {
+        return (
+          <RadioGroup.Option
+            key={`radio-${name}-${index}`}
+            id={`radio-${name}-${index}`}
+            value={createArray(labels.length, index)}
+            as={'span'}
+          >
+            {({ checked }) => (
+              <>
+                {checked ? (
+                  <FontAwesomeIcon className="checked" icon={faCircleDot} />
+                ) : (
+                  <FontAwesomeIcon icon={faCircle} />
+                )}
+                <RadioGroup.Label
+                  className={checked ? 'checked' : ''}
+                  id={`radio-${name}-${index}`}
+                >
+                  {value}
+                </RadioGroup.Label>
+              </>
+            )}
+          </RadioGroup.Option>
+        )
+      })}
+      {error && <p className={styles.error}>{error.message}</p>}
     </RadioGroup>
   )
 }

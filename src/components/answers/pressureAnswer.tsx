@@ -1,10 +1,12 @@
-import { entryData } from '@/views/formData'
+import { EntryData } from '@/views/formData'
+import { faSlash } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { debounce, isString } from 'lodash'
 import { ChangeEvent } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
-import styles from 'styles/answer.module.scss'
+import styles from 'styles/form.module.scss'
 
-interface PressureAnswerProps extends UseControllerProps<entryData> {}
+interface PressureAnswerProps extends UseControllerProps<EntryData> {}
 
 export function PressureAnswer({ name, control }: PressureAnswerProps) {
   const {
@@ -60,7 +62,7 @@ export function PressureAnswer({ name, control }: PressureAnswerProps) {
   return (
     <div>
       <input
-        className={styles['form-input']}
+        className={styles['form-input-short']}
         id={`input-${name}-1`}
         placeholder="110"
         onChange={handleLeft}
@@ -68,9 +70,9 @@ export function PressureAnswer({ name, control }: PressureAnswerProps) {
         type="number"
         defaultValue={getLeftNumber(value as string)}
       />
-      \
+      <FontAwesomeIcon icon={faSlash} />
       <input
-        className={styles['form-input']}
+        className={styles['form-input-short']}
         id={`input-${name}-2`}
         placeholder="70"
         onChange={handleRight}
@@ -78,7 +80,7 @@ export function PressureAnswer({ name, control }: PressureAnswerProps) {
         type="number"
         defaultValue={getRightNumber(value as string)}
       />
-      {error && <p>{error.message}</p>}
+      {error && <p className={styles.error}>{error.message}</p>}
     </div>
   )
 }

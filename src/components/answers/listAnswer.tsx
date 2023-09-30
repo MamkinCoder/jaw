@@ -1,14 +1,14 @@
-import { defaultValues, entryData } from '@/views/formData'
+import { defaultValues, EntryData } from '@/views/formData'
 import { faCircle } from '@fortawesome/free-regular-svg-icons'
 import { faCircleCheck, faCircleDot } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Switch } from '@headlessui/react'
 import { isEqual } from 'lodash'
 import { Fragment, useCallback, useState } from 'react'
-import { UseControllerProps, useController } from 'react-hook-form'
-import styles from 'styles/answer.module.scss'
+import { useController, UseControllerProps } from 'react-hook-form'
+import styles from 'styles/form.module.scss'
 
-interface ListAnswerProps extends UseControllerProps<entryData> {
+interface ListAnswerProps extends UseControllerProps<EntryData> {
   nothing: string
   labels: string[]
 }
@@ -23,9 +23,9 @@ export function ListAnswer({ labels, nothing, control, name }: ListAnswerProps) 
     name,
     control,
     rules: {
-      // validate: (value) => {
-      //   return !isEqual(value, defaultValues[name]) || 'Ответьте на вопрос'
-      // },
+      validate: (value) => {
+        return !isEqual(value, defaultValues[name]) || 'Ответьте на вопрос'
+      },
     },
   })
   const booleanValue = value as boolean[]
@@ -66,11 +66,11 @@ export function ListAnswer({ labels, nothing, control, name }: ListAnswerProps) 
           {({ checked }) => (
             <span>
               {checked ? (
-                <FontAwesomeIcon icon={faCircleCheck} />
+                <FontAwesomeIcon className="checked" icon={faCircleCheck} />
               ) : (
                 <FontAwesomeIcon icon={faCircle} />
               )}
-              <label>{label}</label>
+              <label className={checked ? 'checked' : ''}>{label}</label>
             </span>
           )}
         </Switch>
@@ -82,12 +82,16 @@ export function ListAnswer({ labels, nothing, control, name }: ListAnswerProps) 
       >
         {({ checked }) => (
           <span>
-            {checked ? <FontAwesomeIcon icon={faCircleDot} /> : <FontAwesomeIcon icon={faCircle} />}
-            <label>{nothing}</label>
+            {checked ? (
+              <FontAwesomeIcon className="checked" icon={faCircleDot} />
+            ) : (
+              <FontAwesomeIcon icon={faCircle} />
+            )}
+            <label className={checked ? 'checked' : ''}>{nothing}</label>
           </span>
         )}
       </Switch>
-      {error && <p>{error.message}</p>}
+      {error && <p className={styles.error}>{error.message}</p>}
     </div>
   )
 }

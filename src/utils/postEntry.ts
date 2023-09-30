@@ -1,14 +1,13 @@
-import { entryData } from '@/views/formData'
+import { EntryData } from '@/views/formData'
 
-const apiUrl = 'https://jawhealth.site/php/test.php'
+const apiUrl = 'https://jawhealth.site/php/insert_entry.php'
 
 export interface Feedback {
   status: 'success' | 'error'
   message: string
 }
 
-// Utility function to post data to your API
-export const postEntry = async (data: entryData): Promise<Feedback> => {
+export const postEntry = async (data: EntryData): Promise<Feedback> => {
   try {
     const response = await fetch(apiUrl, {
       method: 'POST',
@@ -23,7 +22,7 @@ export const postEntry = async (data: entryData): Promise<Feedback> => {
     }
 
     return { status: 'success', message: await response.text() }
-    return await response.json()
+    // return await response.json()
   } catch (error) {
     if (error instanceof Error) {
       console.error(error)

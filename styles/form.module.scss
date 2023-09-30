@@ -1,14 +1,14 @@
 @import 'variables';
 .grid-container {
-  padding: 0px $step * 5 $step * 5 * 1.41 * 2;
-  position: relative;
-  background-color: $color-paper;
   display: grid;
-  grid-template-columns: minmax(100px, 1fr) 2fr;
-  gap: 10px;
-  // box-shadow: 10px 5px 20px 0px rgba(0, 0, 0, 0.5);
-  font-size: 1em;
-  cursor: url('/images/barcode.png'), auto;
+  grid-template-columns: minmax(200px, 2fr) 3fr;
+  gap: $step;
+  padding: $step * 2;
+  font-size: 1.2em;
+  min-width: 400px;
+  border-radius: $border-radius;
+  box-shadow: $shadow;
+  position: relative;
 }
 
 .grid-header {
@@ -26,4 +26,69 @@
   .grid-container > :nth-child(even) {
     justify-self: normal;
   }
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+.form-gender {
+  margin-left: 4px;
+  display: inline-flex;
+  font-size: 2em;
+  gap: $step;
+}
+
+.form-input {
+  border: 0px;
+  border-radius: 5px;
+  transition: border-color 0.2s ease-in-out;
+  padding: $step;
+  overflow-y: hidden;
+  resize: none;
+  margin: 5px;
+
+  &:focus {
+    border-color: $color-main;
+  }
+}
+
+.form-input-short {
+  @extend .form-input;
+  width: 50px;
+}
+
+.form-input-submit {
+  @extend .form-input;
+  background-color: $color-main;
+  color: $color-light;
+  width: fit-content;
+  transition: ease-in-out 0.3s;
+  box-shadow: 0 0 10px rgba($color: #000000, $alpha: 0.5);
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba($color: #000000, $alpha: 0.5);
+  }
+  &:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+  }
+
+  &:active {
+    transition: none;
+    transform: scale(1);
+  }
+}
+
+.error {
+  font-size: 1rem;
+  color: $color-alt;
 }

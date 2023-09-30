@@ -1,14 +1,9 @@
 @import 'variables';
 
 .note {
-  aspect-ratio: 1;
-  padding: $step * 2;
-  margin: $step; /* Adds a little spacing between squares */
-  background-color: #effe4d; /* Just for visualization. You can change or remove this */
-}
-.notes-container {
-  flex: 1; // This ensures the right column takes up the remaining space.
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
+  padding: $step;
+  // background-color: #effe4d;
+  position: relative;
+  border-radius: $border-radius;
+  box-shadow: $shadow;
 }
