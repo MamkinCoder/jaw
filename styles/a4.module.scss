@@ -6,6 +6,9 @@
   flex-direction: column;
   flex: 2;
   grid-area: 1 / 1 / span 4 / span 2;
+  @media (max-width: ($mobile*2)) {
+    grid-area: 1 / 1 / auto / auto;
+  }
 }
 
 .a4-container p {

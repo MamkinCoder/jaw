@@ -21,8 +21,7 @@ export const postEntry = async (data: EntryData): Promise<Feedback> => {
       throw new Error(`HTTP error! Status: ${response.status}`)
     }
 
-    return { status: 'success', message: await response.text() }
-    // return await response.json()
+    return await response.json()
   } catch (error) {
     if (error instanceof Error) {
       console.error(error)

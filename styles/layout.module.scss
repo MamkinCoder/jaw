@@ -6,8 +6,8 @@
   place-items: center;
   gap: $step * 4;
   padding: $step * 4;
-  @media (max-width: $mobile) {
+  @media (max-width: ($mobile*2)) {
+    grid-template-columns: 1fr;
     padding: 0;
-    margin: 0;
   }
 }

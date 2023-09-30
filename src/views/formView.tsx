@@ -16,12 +16,11 @@ import { EntryData, defaultValues } from './formData'
 interface FormViewProps {
   children: ReactElement
   form?: UseFormReturn<EntryData, any, undefined>
-  setModal?: Dispatch<SetStateAction<boolean>>
   style?: CSSProperties | undefined
   className?: string
 }
 
-export function FormView({ children, form, setModal, style, className }: FormViewProps) {
+export function FormView({ children, form, style, className }: FormViewProps) {
   const containerClasses = classNames(styles['grid-header'], styles.centered)
   const refs = useFormKeysRefs(Object.keys(defaultValues))
   const { enqueueSnackbar } = useSnackbar()
@@ -73,9 +72,9 @@ export function FormView({ children, form, setModal, style, className }: FormVie
 
   useEffect(() => {
     if (formState.isSubmitSuccessful) {
-      setModal && setModal(false)
+      reset()
     }
-  }, [formState.isSubmitSuccessful, reset, setModal])
+  }, [formState.isSubmitSuccessful, reset])
 
   useEffect(() => {
     if (formState.isSubmitting) {

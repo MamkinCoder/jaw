@@ -16,7 +16,7 @@
   justify-self: start;
 }
 
-@media (max-width: $mobile) {
+@media (max-width: ($mobile+100px)) {
   .grid-container {
     grid-template-columns: 1fr;
   }

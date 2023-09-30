@@ -37,26 +37,14 @@ export function PressureAnswer({ name, control }: PressureAnswerProps) {
     onChange(result)
   }
 
-  function getLeftNumber(str: string): number {
+  function getLeftNumber(str: string): string {
     let leftSide = str.split('\\')[0]
-    let result = parseInt(leftSide, 10)
-
-    if (isNaN(result)) {
-      result = 0
-    }
-
-    return result
+    return leftSide
   }
 
-  function getRightNumber(str: string): number {
+  function getRightNumber(str: string): string {
     let rightSide = str.split('\\')[1]
-    let result = parseInt(rightSide, 10)
-
-    if (isNaN(result)) {
-      result = 0
-    }
-
-    return result
+    return rightSide
   }
 
   return (
