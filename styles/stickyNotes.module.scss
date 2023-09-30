@@ -2,8 +2,10 @@
 
 .note {
   padding: $step;
-  // background-color: #effe4d;
   position: relative;
   border-radius: $border-radius;
   box-shadow: $shadow;
+  @media (max-width: $mobile) {
+    max-width: 400px !important;
+  }
 }
